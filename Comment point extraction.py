@@ -14,7 +14,7 @@ import glob
 
 def get_access_token():
     # client_id 为官网获取的AK， client_secret 为官网获取的SK
-    host = host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=CNLZcnqL3E6NLeFNGzUE06fY&client_secret=b8Z7nQPmASHHhPLjRG6dXKQG7W97DxNk'
+    host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=[Your key]&client_secret=[Your secret key]'
     request = urllib.request.Request(host)
     request.add_header('Content-Type', 'application/json; charset=UTF-8')
     response = urllib.request.urlopen(request)
