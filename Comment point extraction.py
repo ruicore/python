@@ -56,6 +56,8 @@ def get_all_files(directory, filetype=None):
             for file_name in file_names:
                 path = dir_path + "\\" + file_name
                 directorys.append(path)
+        if dir_names == None:
+            pass
     return directorys
 
 
