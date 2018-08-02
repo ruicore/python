@@ -2,8 +2,6 @@
 # @Date 2018-08-01 16:04:48
 # @Last Modified by:   何睿
 # @Last Modified time: 2018-08-01 16:09:17
-# Date time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getctime(r"C:\Git\Python\Spider\maoyan-com-board-4.py"))
-# Last Modified time:  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 import json
 import requests
