@@ -11,6 +11,7 @@ import sys
 import re
 import codecs
 import time
+import pymysql
 from pyquery import PyQuery as pq
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='gb18030')
 
@@ -64,6 +65,73 @@ def csv_modle():
 
     df = pandas.read_csv('temp.csv')
     print(df)
+
+def mysql():
+    db = pymysql.connect(host='localhost', user='root',password="#FcUO%nj9FKrVa2&^AFW", port=3306, db='spiders')
+    data = {'id': 2007,'name': "李玉",'age': 27}
+    table = 'students'
+    keys = ', '.join(data.keys())
+    values = ', '.join(["%s"]*len(data))
+    cursor = db.cursor()
+
+    # insert
+    sql_insert = 'INSERT INTO {table} ({keys}) VALUES ({values})'.format(table=table, keys=keys, values=values)
+    try:
+        if cursor.execute(sql_insert, tuple(data.values())):
+            print("Sucessful")
+            db.commit()
+    except:
+        print('failed')
+        db.rollback()
+    db.close()
+
+    sql_update = "UPDATE students SET age = %s WHERE name = %s"
+    try:
+        cursor.execute(sql_update, (25, "何睿"))
+        db.commit()
+    except:
+        db.rollback()
+    db.close()
+
+    sql_insert_with_no_duplicate = 'INSERT INTO {table} ({keys}) VALUES ({values}) ON DUPLICATE KEY UPDATE'.format(table=table,keys=keys, values=values)
+    update = ','.join([" {key} = %s".format(key=key) for key in data])
+    sql_insert_with_no_duplicate +=update
+    try:
+        if cursor.execute(sql_insert_with_no_duplicate,tuple(data.values())*2):
+            print("Sucessful")
+            db.commit()
+    except:
+        print("Failed")
+        db.rollback()
+    print(sql_insert_with_no_duplicate)
+
+    condition = 'age > 20'
+    sql = 'DELETE FROM {table} WHERE {condition}'.format(table=table,condition=condition)
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except:
+        db.rollback()
+    db.close()
+
+    sql = 'SELECT * FROM students WHERE age > 20'
+    try:
+        # fetchone 使得指针偏移，fetchall可能不会打印所有的数据
+        cursor.execute(sql)
+        print('Count:',cursor.rowcount)
+        one = cursor.fetchone()
+        print('one:',one)
+        results = cursor.fetchall()
+        print("Results:",results)
+        print("Results Type",type(results))
+        for row in results:
+            print(row)
+        row = cursor.fetchone()
+        while row:
+            print("Row:",row)
+            row = cursor.fetchone()
+    except:
+        print("Error")
 
 
 if __name__ == "__main__":
