@@ -13,4 +13,4 @@ def get_time(path):
     return create_time, modified_time,now_time
 
 if __name__=="__main__":
-    get_time(sys.argv[0])
+    get_time(sys.argv[1])
