@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-# @Date:   2018-08-02 23:39:47
+# @Date:2018-08-02 23:39:47
 # @Last Modified by:   何睿
 # @Last Modified time: 2018-08-02 23:53:59
 import requests
+import json
 import io
 import sys
 import re
@@ -27,3 +28,15 @@ def www_zhihu_com_explore():
         myfile.write('\n'.join([question,author,answer]))
         myfile.write('\n'+"="*50+"\n")
         myfile.close()
+
+def json_modle():
+    data=[{
+    "name":"何睿",
+    "gender":"男",
+    'birthday':'1997.04.03'
+    }]
+    with codecs.open('temp.json','w',encoding='utf-8') as f:
+        f.write(json.dumps(data,indent=4,ensure_ascii=False))
+
+if __name__=="__main__":
+    pass

@@ -10,7 +10,6 @@
 *.ico
 *.png
 temp.*
-time.py
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
