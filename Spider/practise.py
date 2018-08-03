@@ -12,6 +12,8 @@ import re
 import codecs
 import time
 import pymysql
+import pymongo
+from bson.objectid import ObjectId
 from pyquery import PyQuery as pq
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='gb18030')
 
@@ -132,6 +134,52 @@ def mysql():
             row = cursor.fetchone()
     except:
         print("Error")
+
+def mongodb():
+    client = pymongo.MongoClient(host='localhost', port=27017)
+    db = client['test']
+    collection = db['students']
+    student = {'id': '20180803', 'name': '何睿', 'age': 20, 'gender': 'male'}
+    student1 = {'id': '20180803', 'name': '傅恒', 'age': 21, 'gender': 'male'}
+    student2 = {'id': '20180803', 'name': '璎珞', 'age': 22, 'gender': 'female'}
+    student3 = {'id': '20180803', 'name': '皇后', 'age': 23, 'gender': 'female'}
+    collection.insert_many([student1,student2,student3])
+    results_greater_than = collection.find({'age': {"$gt": 20}})
+    results_like = collection.find({'name': {'$regex': "^何.*?"}})
+    count = collection.find({'age': {"$gt": 20}}).count()
+    print(count)
+    result_sort = collection.find().sort('name', pymongo.ASCENDING)
+    print(result_sort)
+    result_sort_skip = collection.find().sort('name', pymongo.ASCENDING).skip(2)
+    print(result_sort_skip)
+    result_sort_skip_limit = collection.find().sort(
+        'name', pymongo.ASCENDING).skip(2).limit(2)
+    print(result_sort_skip_limit)
+    result_with_id = collection.find(
+        {'_id': {'$gt': ObjectId('5b641358fe9d40341cc8b6e1')}})
+    print(result_with_id)
+    conditon = {'name': '何睿'}
+    result_student = collection.find_one(conditon)
+    result_student['age'] = 35
+    # 只更新result_student内存在的字段，如果原先还有其他字段，不更新，也不删除；如果不用set，会把字典内原有的全部用result_student 替换，原本存在的字段，将会被删除
+    result = collection.update(conditon, {'$set': result_student})
+    print("results_like",results_like)
+    print("results_greater_than",results_greater_than)
+    # update one
+    conditon = {"name":"何睿"}
+    student = collection.find_one(conditon)
+    student['age']=26
+    result= collection.update_one(conditon,{"$set":student})
+
+    conditon = {"age":{"$gt":20}}
+    result = collection.update_one(conditon,{"$inc":{"age":1}})
+
+    conditon = {"age":{"$gt":20}}
+    result = collection.update_many(conditon,{"$inc":{"age":1}})
+
+    result = collection.delete_one({"name":"何睿"})
+    print(result)
+    print(result.deleted_count)
 
 
 if __name__ == "__main__":
