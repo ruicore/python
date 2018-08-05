@@ -68,16 +68,19 @@ def csv_modle():
     df = pandas.read_csv('temp.csv')
     print(df)
 
+
 def mysql():
-    db = pymysql.connect(host='localhost', user='root',password="#FcUO%nj9FKrVa2&^AFW", port=3306, db='spiders')
-    data = {'id': 2007,'name': "李玉",'age': 27}
+    db = pymysql.connect(host='localhost', user='root',
+                         password="#FcUO%nj9FKrVa2&^AFW", port=3306, db='spiders')
+    data = {'id': 2007, 'name': "李玉", 'age': 27}
     table = 'students'
     keys = ', '.join(data.keys())
     values = ', '.join(["%s"]*len(data))
     cursor = db.cursor()
 
     # insert
-    sql_insert = 'INSERT INTO {table} ({keys}) VALUES ({values})'.format(table=table, keys=keys, values=values)
+    sql_insert = 'INSERT INTO {table} ({keys}) VALUES ({values})'.format(
+        table=table, keys=keys, values=values)
     try:
         if cursor.execute(sql_insert, tuple(data.values())):
             print("Sucessful")
@@ -95,11 +98,12 @@ def mysql():
         db.rollback()
     db.close()
 
-    sql_insert_with_no_duplicate = 'INSERT INTO {table} ({keys}) VALUES ({values}) ON DUPLICATE KEY UPDATE'.format(table=table,keys=keys, values=values)
+    sql_insert_with_no_duplicate = 'INSERT INTO {table} ({keys}) VALUES ({values}) ON DUPLICATE KEY UPDATE'.format(
+        table=table, keys=keys, values=values)
     update = ','.join([" {key} = %s".format(key=key) for key in data])
-    sql_insert_with_no_duplicate +=update
+    sql_insert_with_no_duplicate += update
     try:
-        if cursor.execute(sql_insert_with_no_duplicate,tuple(data.values())*2):
+        if cursor.execute(sql_insert_with_no_duplicate, tuple(data.values())*2):
             print("Sucessful")
             db.commit()
     except:
@@ -108,7 +112,8 @@ def mysql():
     print(sql_insert_with_no_duplicate)
 
     condition = 'age > 20'
-    sql = 'DELETE FROM {table} WHERE {condition}'.format(table=table,condition=condition)
+    sql = 'DELETE FROM {table} WHERE {condition}'.format(
+        table=table, condition=condition)
     try:
         cursor.execute(sql)
         db.commit()
@@ -120,20 +125,21 @@ def mysql():
     try:
         # fetchone 使得指针偏移，fetchall可能不会打印所有的数据
         cursor.execute(sql)
-        print('Count:',cursor.rowcount)
+        print('Count:', cursor.rowcount)
         one = cursor.fetchone()
-        print('one:',one)
+        print('one:', one)
         results = cursor.fetchall()
-        print("Results:",results)
-        print("Results Type",type(results))
+        print("Results:", results)
+        print("Results Type", type(results))
         for row in results:
             print(row)
         row = cursor.fetchone()
         while row:
-            print("Row:",row)
+            print("Row:", row)
             row = cursor.fetchone()
     except:
         print("Error")
+
 
 def mongodb():
     client = pymongo.MongoClient(host='localhost', port=27017)
@@ -143,7 +149,7 @@ def mongodb():
     student1 = {'id': '20180803', 'name': '傅恒', 'age': 21, 'gender': 'male'}
     student2 = {'id': '20180803', 'name': '璎珞', 'age': 22, 'gender': 'female'}
     student3 = {'id': '20180803', 'name': '皇后', 'age': 23, 'gender': 'female'}
-    collection.insert_many([student1,student2,student3])
+    collection.insert_many([student1, student2, student3])
     results_greater_than = collection.find({'age': {"$gt": 20}})
     results_like = collection.find({'name': {'$regex': "^何.*?"}})
     count = collection.find({'age': {"$gt": 20}}).count()
@@ -163,24 +169,66 @@ def mongodb():
     result_student['age'] = 35
     # 只更新result_student内存在的字段，如果原先还有其他字段，不更新，也不删除；如果不用set，会把字典内原有的全部用result_student 替换，原本存在的字段，将会被删除
     result = collection.update(conditon, {'$set': result_student})
-    print("results_like",results_like)
-    print("results_greater_than",results_greater_than)
+    print("results_like", results_like)
+    print("results_greater_than", results_greater_than)
     # update one
-    conditon = {"name":"何睿"}
+    conditon = {"name": "何睿"}
     student = collection.find_one(conditon)
-    student['age']=26
-    result= collection.update_one(conditon,{"$set":student})
+    student['age'] = 26
+    result = collection.update_one(conditon, {"$set": student})
 
-    conditon = {"age":{"$gt":20}}
-    result = collection.update_one(conditon,{"$inc":{"age":1}})
+    conditon = {"age": {"$gt": 20}}
+    result = collection.update_one(conditon, {"$inc": {"age": 1}})
 
-    conditon = {"age":{"$gt":20}}
-    result = collection.update_many(conditon,{"$inc":{"age":1}})
+    conditon = {"age": {"$gt": 20}}
+    result = collection.update_many(conditon, {"$inc": {"age": 1}})
 
-    result = collection.delete_one({"name":"何睿"})
+    result = collection.delete_one({"name": "何睿"})
     print(result)
     print(result.deleted_count)
+# =============参数练习=============
+
+
+def story(**kwds):
+    return "Once upon a time there was a "\
+        "%(job)s called %(name)s." % kwds
+
+
+def power(x, y, *others):
+    if others:
+        print("Recived redundant parameters:", others)
+    return pow(x, y)
+
+
+def interval(start, stop=None, step=1):
+    'Imitates range() for step >0'
+    if stop is None:
+        start, stop = 0, start
+    result = []
+    i = start
+    while i < stop:
+        result.append(i)
+        i += step
+    return result
+
+
+def param_driver():
+    print(story(job='king', name='Gumby'))
+    print(story(name='Sir Robin', job='brave knight'))
+    params = {'job': 'language', 'name': 'Python'}
+    print(story(**params))
+    del params['job']
+    print(story(job='stoke of genius', **params))
+    print(power(2, 3))
+    print(power(3, 2))
+    power(x=2, y=3)
+    params = (5,)*2
+    print(power(*params))
+    print(power(3, 3, 'Hello,world'))
+    print(interval(10))
+    print(interval(3, 12, 4))
+    print(power(*interval(3, 7)))
 
 
 if __name__ == "__main__":
-    pass
+    param_driver()
