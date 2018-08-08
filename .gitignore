@@ -9,6 +9,8 @@
 *.txt
 *.ico
 *.png
+temp.*
+.vscode
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
