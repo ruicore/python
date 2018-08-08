@@ -64,7 +64,7 @@ def count_word_frequency_in_txt(file_path, frecency):
 def get_charcode(file):
     with open(file, 'rb') as f:
         content = f.read()
-        return (chardet.detect(content)['encoding'])
+        return (chardet.detect(content).get('encoding'))
 
 
 # 得到父文件夹下的所有文件夹，参数为父文件夹路径，返回包含路径的set
