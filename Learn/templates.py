@@ -3,6 +3,7 @@
 # @Create Date:        2018-08-09 11:05:17
 # @Last Modified by:   何睿
 # @Last Modified time: 2018-08-09 11:34:36
+# python .\templates.py .\magnus.txt .\template.txt
 
 import fileinput
 import re
