@@ -11,6 +11,7 @@
 *.png
 temp.*
 time.py
+*.db
 *.jpg
 
 # User-specific files (MonoDevelop/Xamarin Studio)
