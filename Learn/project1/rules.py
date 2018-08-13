@@ -52,7 +52,7 @@ class ListItemRule(Rule):
 
     def action(self, block, handler):
         handler.start(self._type)
-        handler.feed(block[1:], strip())
+        handler.feed(block[1:].strip())
         handler.end(self._type)
         return True
 
@@ -75,11 +75,13 @@ class ListRule(ListItemRule):
             handler.end(self._type)
             self.inside = False
         return False
-class ParagraphrRule(Rule):
+
+
+class ParagrapheRule(Rule):
     """
     段落只是其他规则并没有覆盖到的块
     """
-    _type='paragraph'
-    def condiciton(self,block):
-        return True
+    _type = 'paragraph'
 
+    def condiciton(self, block):
+        return True
