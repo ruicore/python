@@ -2,7 +2,7 @@
 # @Author:             何睿
 # @Create Date:        2018-08-13 10:43:20
 # @Last Modified by:   何睿
-# @Last Modified time: 2018-08-13 10:43:34
+# @Last Modified time: 2018-08-13 11:21:37
 
 
 class Rule:
@@ -55,13 +55,31 @@ class ListItemRule(Rule):
         handler.feed(block[1:], strip())
         handler.end(self._type)
         return True
+
+
 class ListRule(ListItemRule):
     """
     列表从不是列表项的块和随后的列表项之间。在最后一个连续列表项之后结束
     """
     _type = 'list'
     inside = False
+
+    def condiciton(self, block):
+        return True
+
+    def action(self, block, handler):
+        if not self.inside and ListItemRule.condiciton(self, block):
+            handler.start(self._type)
+            self.inside = True
+        elif self.inside and not ListItemRule.condiciton(self, block):
+            handler.end(self._type)
+            self.inside = False
+        return False
+class ParagraphrRule(Rule):
+    """
+    段落只是其他规则并没有覆盖到的块
+    """
+    _type='paragraph'
     def condiciton(self,block):
         return True
-    
 
