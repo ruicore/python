@@ -24,5 +24,9 @@ are some of my interests:</p>
             <h1>Mr.Gumby's Sleeping page</h1>
             <p>...</p>
         </page>
+         <page name="eating" title='Eating'>
+            <h1>Mr.Gumby's Eating page</h1>
+            <p>...</p>
+        </page>
     </directory>
 </website>
