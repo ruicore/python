@@ -170,7 +170,7 @@ def runDefaultSetup():
     clpa = NNTPSource(clpa_server, clpa_group, clpa_window)
     agent.addSource(clpa)
     agent.addDestination(PlainDestination())
-    agent.addDestination(HTMLDestination())
+    agent.addDestination(HTMLDestination('news.html'))
 
     agent.distribute()
 
