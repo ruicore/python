@@ -150,10 +150,30 @@ class HTMLDestination:
         </body>
         </html>
         """, file=out)
-    def runDefaultSetup():
-        """
-        来源和目标的默认设置。可以自己修改
-        """
-        agent = NewsAgent()
-        # 从BBS新闻站获取新闻的SimpleWebSource
-        bbc_url = 
+
+
+def runDefaultSetup():
+    """
+    来源和目标的默认设置。可以自己修改
+    """
+    agent = NewsAgent()
+    # 从BBS新闻站获取新闻的SimpleWebSource
+    bbc_url = 'https://www.bbc.com/news/uk'
+    bbc_title = r'(?s)a herf =[^"]*">\s*<b>\s*(.*?)\s*</b>'
+    bbc_body = r'(?s)</a>\s*<br />\s*(.*?)\s*<'
+    bbc = SimpleWebSource(bbc_url, bbc_title, bbc_body)
+    agent.addSource(bbc)
+    # 从comp.lang.python.annouce获取新闻的NNTPSource
+    clpa_server = 'news.foo.bar'
+    clpa_group = 'comp.lang.python.annouce'
+    clpa_window = 1
+    clpa = NNTPSource(clpa_server, clpa_group, clpa_window)
+    agent.addSource(clpa)
+    agent.addDestination(PlainDestination())
+    agent.addDestination(HTMLDestination())
+
+    agent.distribute()
+
+
+if __name__ == "__main__":
+    runDefaultSetup()
