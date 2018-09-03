@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author:             何睿
-# @Create Date:        2018-08-05 20:49:57
+# @Create Date:        2018-09-03 10:42:26
 # @Last Modified by:   何睿
-# @Last Modified time: 2018-08-05 21:22:06
+# @Last Modified time: 2018-09-03 10:43:25
 
 import re
 import os
@@ -74,7 +74,7 @@ def get_all_folders(directory):
         for dir_name in dir_names:
             path = dir_path + "\\" + dir_name
             directorys.add(path)
-            file_names=file_names
+            file_names = file_names
     return directorys
 
 
@@ -164,6 +164,7 @@ def calculate_nearby_words(keywords, words, nearby_words_num=15, combination_num
             reslut.append(keywords_combinations[i])
     return reslut
 
+
 def remove_last_brackets(dry):
     dry = re.sub(" ", "", dry)
     length = len(dry)
@@ -179,3 +180,18 @@ def remove_last_brackets(dry):
     if ch_last_right_br > 0 or en_last_right_br > 0:
         last_left_br = length - 2
     return dry[:last_left_br]
+
+
+def find_lcsubstr(s1, s2):
+    "找两个字符串的最长公共字串"
+    m = [[0 for i in range(len(s2) + 1)] for j in range(len(s1) + 1)]
+    mmax = 0  # 最长匹配的长度
+    p = 0  # 最长匹配对应在s1中的最后一位
+    for i in range(len(s1)):
+        for j in range(len(s2)):
+            if s1[i] == s2[j]:
+                m[i + 1][j + 1] = m[i][j] + 1
+                if m[i + 1][j + 1] > mmax:
+                    mmax = m[i + 1][j + 1]
+                    p = i + 1
+    return s1[p - mmax:p], mmax, p-mmax  # 最长字串，长度，在串1中的起始地址
