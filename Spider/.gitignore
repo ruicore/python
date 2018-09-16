@@ -13,6 +13,7 @@ temp.*
 time.py
 *.jpg
 secret.json
+practise.py
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

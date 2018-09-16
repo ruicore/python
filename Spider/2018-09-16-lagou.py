@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 # @Author:             何睿
-# @Create Date:        2018-09-03 10:42:26
+# @Create Date:        2018-09-16 16:42:52
 # @Last Modified by:   何睿
-# @Last Modified time: 2018-09-16 15:46:55
+# @Last Modified time: 2018-09-16 16:42:52
 
 import codecs
 import time
 from urllib import request, parse
+
 
 def lagou(pages=30):
 
