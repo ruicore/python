@@ -9,14 +9,14 @@ import os
 import time
 import json
 import codecs
-import pprint
+from pprint import pprint
 
 
 def set_key(node_dict, keys, values):
     try:
         temp_list = node_dict[keys[0]]
     except:
-        print("根节点未找到")
+        pprint("根节点未找到")
         return -1
     for key in keys[1:]:
         for sub_dict in temp_list:
@@ -27,6 +27,7 @@ def set_key(node_dict, keys, values):
         temp_dict = {value: []}
         if not temp_dict in temp_list:
             temp_list.append(temp_dict)
+            temp_list = temp_dict.get(value)
     return
 
 
@@ -49,9 +50,11 @@ def notes2json(content_path, write_path):
     if master_key:
         node_dict = {master_key: []}
     else:
-        print("根不存在，请重新输入")
+        pprint("根不存在，请重新输入")
+    master = node_dict[master_key]
     for key in lines[0][2:]:
-        node_dict[master_key].append({key: []})
+        master.append({key: []})
+        master = master[0].get(key)
     # 给每一行找到合适的位置
     for index, line in enumerate(lines[1:]):
         num = line[0]
@@ -65,7 +68,7 @@ def notes2json(content_path, write_path):
                 for i in range(num-lines[j][0], 0, -1):
                     keys.insert(0, lines[j][i])
             except:
-                print("该层的直接上一层不能提供足够的节点，将使用上一层的所有节点作为父节点")
+                pprint("该层的直接上一层不能提供足够的节点，将使用上一层的所有节点作为父节点")
                 length = len(lines[j])
                 for i in range(length-1, 0, -1):
                     keys.insert(0, lines[j][i])
