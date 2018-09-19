@@ -4,10 +4,11 @@
 # @Last Modified by:   何睿
 # @Last Modified time: 2018-09-19 19:58:02
 
+import re
+import os
 import time
 import json
 import codecs
-import re
 import pprint
 
 
@@ -77,6 +78,7 @@ def notes2json(content_path, write_path):
 
 
 if __name__ == "__main__":
-    content_path = r"C:\HeRui\Temp\艾耕科技-爬虫笔试题\concepts.txt"
-    write_path = r'C:\HeRui\Temp\艾耕科技-爬虫笔试题\result.json'
+    base_path = os.path.abspath('.')
+    content_path = os.path.join(base_path, "concepts.txt")
+    write_path = os.path.join(base_path, 'result.json')
     notes2json(content_path, write_path)
