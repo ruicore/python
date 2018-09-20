@@ -6,6 +6,7 @@
 
 import re
 import os
+import sys
 import time
 import json
 import codecs
@@ -104,7 +105,7 @@ def find(json_path, key):
 
 
 if __name__ == "__main__":
-    base_path = os.path.abspath('.')
+    base_path = sys.path[0]
     # 源文件concepts.txt所在路径
     content_path = os.path.join(base_path, "concepts.txt")
     # json文件所在路径
