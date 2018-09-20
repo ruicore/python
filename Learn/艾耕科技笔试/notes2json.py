@@ -9,6 +9,7 @@ import os
 import time
 import json
 import codecs
+import operator
 from pprint import pprint
 
 
@@ -17,7 +18,7 @@ def set_key(node_dict, keys, values):
         temp_list = node_dict[keys[0]]
     except:
         pprint("根节点未找到")
-        return -1
+        return False
     for key in keys[1:]:
         for sub_dict in temp_list:
             temp_list = sub_dict.get(key)
@@ -28,7 +29,7 @@ def set_key(node_dict, keys, values):
         if not temp_dict in temp_list:
             temp_list.append(temp_dict)
             temp_list = temp_dict.get(value)
-    return
+    return True
 
 
 def notes2json(content_path, write_path):
@@ -77,11 +78,36 @@ def notes2json(content_path, write_path):
         set_key(node_dict, keys, line[1:])
     with codecs.open(write_path, 'w', 'utf-8') as f:
         f.write(json.dumps(node_dict, ensure_ascii=False))
-    return 0
+    return True
+
+
+def depth_first(sub_dict, key, stack):
+    sub_key = list(sub_dict.keys())[0]
+    stack.append(sub_key)
+    if operator.eq(sub_key, key):
+        return True
+    for item in sub_dict[sub_key]:
+        res = depth_first(item, key, stack)
+        if res:
+            return res
+    stack.pop()
+    return False
+
+
+def find(json_path, key):
+    content = json.loads(codecs.open(json_path, 'r', 'utf-8').read())
+    stack = []
+    if depth_first(content, key, stack):
+        pprint('.'.join(stack))
+    else:
+        pprint("不存在关键字：%s" % key)
 
 
 if __name__ == "__main__":
     base_path = os.path.abspath('.')
+    # 源文件concepts.txt所在路径
     content_path = os.path.join(base_path, "concepts.txt")
+    # json文件所在路径
     write_path = os.path.join(base_path, 'result.json')
     notes2json(content_path, write_path)
+    find(write_path, '贝叶斯模型')
