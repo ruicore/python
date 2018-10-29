@@ -12,7 +12,10 @@ import random
 import time
 import json
 import requests
+import matplotlib.pyplot as plt
 import pandas as pd
+import jieba
+from wordcloud import WordCloud
 from ips import proxies
 
 
@@ -99,17 +102,17 @@ def drive():
 def analysis():
     # 读取数据
     df = pd.read_csv('lagou.csv', encoding='utf-8_sig')
-    df.drop(df[df['职位名称'].str.contains("实习")].index,inplace=True)
+    df.drop(df[df['职位名称'].str.contains("实习")].index, inplace=True)
     # 由于csv文件内的数据是字符串形式，先用正则表达式将字符串转化为列表，再取区间的均值
     pattern = r"\d+"
     df['work_year'] = df["工作经验"].str.findall(pattern)
     avg_work_year = []
     for i in df["work_year"]:
-        #如果工作经验为"不限"或者为"应届毕业生",那么匹配值为空，工作年限为0
+        # 如果工作经验为"不限"或者为"应届毕业生",那么匹配值为空，工作年限为0
         if len(i) == 0:
             avg_work_year.append(0)
         # 如果匹配值为一个数值，那么返回该值
-        elif len(i)==1:
+        elif len(i) == 1:
             avg_work_year.append(int(''.join(i)))
         else:
             num_list = [int(j) for j in i]
@@ -121,6 +124,48 @@ def analysis():
     # 月薪
     avg_salary = []
     for k in df["salary"]:
+        int_list = [int(n) for n in k]
+        avg_wage = int_list[0] + (int_list[1]-int_list[0])/4
+        avg_salary.append(avg_wage)
+    df['月工资'] = avg_salary
+    # 将学历不限的职位要求认定为最低要求学历:大专\
+    df["学历要求"] = df["学历要求"].replace("不限", "大专")
+    # 绘制频率直方图并保存
+    plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+    plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
+    plt.hist(df['月工资'])
+    plt.xlabel('工资 (千元)')
+    plt.ylabel('频数')
+    plt.title("工资直方图")
+    plt.savefig('薪资.jpg')
+    plt.show()
+    # 绘制饼图并保存
+    count = df['区域'].value_counts()
+    plt.pie(count, labels=count.keys(), labeldistance=1.4, autopct='%2.1f%%')
+    plt.axis('equal')  # 使饼图为正圆形
+    plt.legend(loc='upper left', bbox_to_anchor=(-0.1, 1))
+    plt.savefig('pie_chart.jpg')
+    plt.show()
+    # 绘制词云,将职位福利中的字符串汇总
+    text = ''
+    for line in df['职位福利']:
+        text += line
+    # 使用jieba模块将字符串分割为单词列表
+    cut_text = ' '.join(jieba.cut(text))
+    # color_mask = imread('cloud.jpg')  #设置背景图
+    cloud = WordCloud(background_color='white',
+                      # 对中文操作必须指明字体
+                      font_path=r"C:\Windows\Fonts\STKaiti Regular.tff",
+                      #mask = color_mask,
+                      max_words=1000,
+                      max_font_size=100
+                      ).generate(cut_text)
+
+    # 保存词云图片
+    cloud.to_file('word_cloud.jpg')
+    plt.imshow(cloud)
+    plt.axis('off')
+    plt.show()
 
 
 if __name__ == "__main__":
