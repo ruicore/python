@@ -67,9 +67,11 @@ class TaoBao():
                 response_auctions_info += auctions
                 print("第%d个页面，共%d个宝贝" % ((page+1), len(auctions)))
             self.write_excel(response_auctions_info, file_name)
-            print('%s共爬取到%d个宝贝长度'%(key,len(self.auctions_distinct)))
+            print('%s共爬取到%d个宝贝'%(key,len(self.auctions_distinct)))
 
 
 if __name__ == '__main__':
     taobao = TaoBao()
+    #需要爬取的商品名称
+    taobao.keys=['Iphone', 'Python']
     taobao.crawl()
