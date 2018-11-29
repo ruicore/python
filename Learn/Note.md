@@ -40,3 +40,32 @@ myset = set(data)
 myset_list = {x for x in myset if x >= 0}
 myset_filter = set(filter(lambda x: x > 0, myset))
 ```
+
+* 命名问题
+
+```python
+# 问题描述
+# 在使用元组的时候，经常使用index来访问元素，如有学生元组
+s1 = ("Mary", 18, "female", '765809435@qq.com')
+s2 = ("Jim", 20, "male", '13287675639@163.com')
+s3 = ("Jack", 19, "female", 'jack2345@qq.com')
+name  = s1[0]
+age = s2[2]
+sex  = s[3]
+# 采用这种方式会使得代码不直观，而且不易于维护，有两种方法进行改善
+
+# 方法一，采用类似宏定义的方式
+NAME, AGE, SEX, EMAIL = range(4)
+sutdent = ("Mary", 18, "female", '765809435@qq.com')
+print("方式一", sutdent[NAME], sutdent[AGE], sutdent[SEX], sutdent[EMAIL])
+
+# 采用python自带的collection模块中的namedtuple
+# 创建一个类
+# ["name", 'age', 'sex', 'email'] 对应索引的名字
+Student = namedtuple('Student', ["name", 'age', 'sex', 'email'])
+s1 = Student("Mary", 18, "female", '765809435@qq.com')
+s2 = Student(name="Harry", age=28, sex="male", email='778809435@qq.com')
+# s1 是内置元组的子类
+print(isinstance(s1,tuple))
+print("方式二", s2)
+```
