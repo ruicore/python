@@ -241,7 +241,10 @@ ModelManifest.xml
 
 # Paket dependency manager
 .paket/paket.exe
+__pycache__
 
 # FAKE - F# Make
 .fake/
 test.py
+ruicore.*
+ruicore/
