@@ -45,14 +45,14 @@ operator."""
 times = Counter(re.split(r"\W+",text))
 com = times.most_common(3)
 ```
-需求：根据字典中值地大小，对字典排序
+需求：根据字典中值的大小，对字典排序
 
 ```py
 nums = {0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3}
 res = sorted(nums.items(), key=lambda x: x[1])
 ```
 
-需求：找到多个字典中的共建键
+需求：找到多个字典中的公共键
 
 ```py
 from functools import reduce
@@ -97,4 +97,22 @@ text = "07/20/2019"
 
 res = re.sub(r"(\d{2})\/(\d{2})\/(\d{4})", r"\3-\1-\2", text)
 ```
+## 遍历
 
+需求：同时遍历可迭代对象
+
+```py
+from itertools import chain
+
+
+nums1 = [1, 5, 4, 5]
+nums2 = [2, 3, 3]
+nums3 = [4, 3, 3, 5, 7, 8, 3]
+
+# 并行遍历
+for x, y, z in zip(nums1, nums2, nums3):
+    print(x, y, z)
+# 串行遍历
+for x in chain(nums1, nums2, nums3):
+    print(x)
+```
