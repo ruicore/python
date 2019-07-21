@@ -97,7 +97,7 @@ text = "07/20/2019"
 
 res = re.sub(r"(\d{2})\/(\d{2})\/(\d{4})", r"\3-\1-\2", text)
 ```
-## 遍历
+## 4.遍历
 
 需求：同时遍历可迭代对象
 
@@ -115,4 +115,116 @@ for x, y, z in zip(nums1, nums2, nums3):
 # 串行遍历
 for x in chain(nums1, nums2, nums3):
     print(x)
+```
+
+## 5.类
+
+需求：为了确保用户输入正确格式的数，强制用户使用函数进行访问；为了简介，通过 property 自动调用函数，实现「设置属性自动调用函数的效果」
+
+property 为类创建可管理的属性
+```py
+
+class Control(object):
+    def __init__(self, value):
+        self.value = value
+
+    def get_value(self):
+        return self.value
+
+    def set_value(self, num: int):
+        if not isinstance(num, (int, float)):
+            raise ValueError("please enter num")
+        self.value = num
+
+    r = property(get_value, set_value)
+```
+
+需求：实现类的比较
+
+```py
+from functools import total_ordering
+from abc import ABCMeta, abstractmethod
+
+
+@total_ordering
+class Shape(object):
+
+    @abstractmethod
+    def area(self):
+        pass
+
+    def __lt__(self, obj):
+        if not isinstance(obj, Shape):
+            raise TypeError("obj is not a shape")
+        return self.area() < obj.area()
+
+    def __eq__(self, obj):
+        if not isinstance(obj, Shape):
+            raise TypeError("obj is not a shape")
+        return self.area() == obj.area()
+
+
+class Cirlcle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14*self.radius**2
+
+
+class Rect(Shape):
+    def __init__(self, weight, height):
+        self.weight = weight
+        self.height = height
+
+    def area(self):
+        return self.weight*self.height
+
+
+cricle = Cirlcle(3)
+rect = Rect(3, 4)
+print(cricle >= rect)
+```
+
+需求：对实例的类做类型检查
+
+```py
+class Attr(object):
+    def __init__(self, name, type_):
+        self.name = name
+        self.type_ = type_
+
+    def __get__(self, instance, cls):
+        return instance.__dict__[self.name]
+
+    def __set__(self, instance, value):
+        if not isinstance(value, self.type_):
+            raise TypeError("expect a {}".format(self.type_))
+        instance.__dict__[self.name] = value
+
+    def __delete__(self, instance):
+        del instance.__dict__[self.name]
+
+
+class Monkey(object):
+    name = Attr("name", str)
+    age = Attr("age", int)
+    gender = Attr("gender", str)
+
+```
+
+需求：根据字符串执行实例的函数
+
+```py
+from operator import methodcaller
+
+
+class MethonCall(object):
+    def get_value(self, value: int, value2: int):
+        return 12*value*value2
+
+
+mc = MethonCall()
+fun = methodcaller("get_value", 2, -1)
+print(fun(mc))
 ```
