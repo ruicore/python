@@ -228,3 +228,75 @@ mc = MethonCall()
 fun = methodcaller("get_value", 2, -1)
 print(fun(mc))
 ```
+
+## 6. 装饰器
+
+1. 需求：为某一个函数增加功能，不影响原来的函数
+
+```py
+from functools import wraps, update_wrapper
+
+def add_cache(fun):
+    cache = dict()
+
+    @wraps(fun)
+    def handler(*arg):
+        if arg not in cache:
+            cache[arg] = fun(*arg)
+        return cache[arg]
+    # update_wrapper(handler, fun, ("__name__", "__doc__"), ("__dict__",))
+    return handler
+
+@add_cache
+def fibonacci(n):
+    if n <= 1:
+        return 1
+    return fibonacci(n-1)+fibonacci(n-2)
+
+print(fibonacci(89))
+```
+2. 带参数的装饰器
+
+```py
+import time
+import logging
+from random import randint
+
+
+def warn(timeout):
+    timeout = [timeout]
+
+    def decorator(fun):
+        def wrapper(*args, **kwargs):
+            start = time.time()
+            res = fun(*args, **kwargs)
+            end = time.time()
+            used = end-start
+            if used > timeout[0]:
+                logging.warn("{}:{} > {}".format(fun.__name__, used, timeout[0]))
+            return res
+
+        def set_timeout(k):
+            timeout[0] = k
+        wrapper.set_timeout = set_timeout
+
+        return wrapper
+
+    return decorator
+
+
+@warn(1)
+def test():
+    print("正在测试")
+    while randint(0, 1):
+        time.sleep(0.5)
+
+
+for i in range(20):
+    test()
+
+test.set_timeout(1.2)
+
+for i in range(20):
+    test()
+```
