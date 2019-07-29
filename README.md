@@ -13,11 +13,15 @@
 过滤 list 中大于 0 的数：[14, 0, -6, 0, -10, -8, -1, 19, -10, -16]
 筛选出字典中值大于 0 的项目：{0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3}
 筛选出集合中能被 2 整除的数：{3, 4, 9, 12, 15, 17, 19, 20}
-
+找到字典中值最小的健值对：prices = {'ACME': 45.23,'AAPL': 612.78,'IBM': 205.55,'HPQ': 37.20,'FB': 10.75}
+对字典排序，首先按照值排序，值相同再按照健排序
 ```py
 list_bigger = [x for x in list_nums if x > 0]
 dict_bigget = {k: v for k, v in dict_nums.items() if v > 0}
 set_two = {x for x in set_nums if not x % 2}
+min_pairs = min(zip(prices.values(),prices.keys()))
+sorted_pairs = sorted(zip(prices.values(),prices.keys()))
+# zip 创建的对象只能访问一次
 ```
 ### 2.命名，统计，字典
 需求：在表格中，每一行的信息固定，为了访问某个位置的值，不使用索引
@@ -307,4 +311,24 @@ test.set_timeout(1.2)
 
 for i in range(20):
     test()
+```
+### 7. 优先队列
+
+需求：实现一个有优先级的队列
+
+```py
+import heapq
+
+class PriorityQueue(object):
+    def __init__(self):
+        self._queue = []
+        self._index = 0
+
+    def push(self, item, priority):
+        heapq.heappush(self._queue, (-priority, self._index, item))
+        self._index += 1
+
+    def pop(self):
+        return heapq.heappop(self._queue)[-1] if self._queue else None
+
 ```
