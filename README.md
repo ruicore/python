@@ -351,3 +351,31 @@ items = [1, 2, [3, 4, (5, 6), 7], 8, "temp", "core", {-1, -2, -4, -6}]
 for x in flatten(items):
     print(x)
 ```
+### 文件
+
+1. 打印输出到文件中
+
+```py
+with open('d:/work/test.txt', 'wt') as f:
+    print('Hello World!', file=f)
+
+# 文件必须以文本格式打开
+```
+
+1. 文件不存在时才能写入
+
+```py
+with open('somefile', 'xt') as f:
+    f.write('Hello\n')
+```
+
+### 使用强制关键字参数
+
+```py
+def recv(maxsize, *, block):
+    'Receives a message'
+    pass
+
+recv(1024, True) # TypeError
+recv(1024, block=True) # Ok
+```
