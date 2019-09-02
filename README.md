@@ -15,12 +15,14 @@
 筛选出集合中能被 2 整除的数：{3, 4, 9, 12, 15, 17, 19, 20}
 找到字典中值最小的健值对：prices = {'ACME': 45.23,'AAPL': 612.78,'IBM': 205.55,'HPQ': 37.20,'FB': 10.75}
 对字典排序，首先按照值排序，值相同再按照健排序
+对字典的健按照值排序
 ```py
 list_bigger = [x for x in list_nums if x > 0]
 dict_bigget = {k: v for k, v in dict_nums.items() if v > 0}
 set_two = {x for x in set_nums if not x % 2}
 min_pairs = min(zip(prices.values(),prices.keys()))
 sorted_pairs = sorted(zip(prices.values(),prices.keys()))
+sorted_keys = sorted(prices,prices.get)
 # zip 创建的对象只能访问一次
 ```
 ### 2.命名，统计，字典
