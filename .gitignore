@@ -107,3 +107,4 @@ unfinished/
 temp.*
 *.html
 ruicore.*
+.vscode*
