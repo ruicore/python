@@ -489,6 +489,3 @@ def recv(maxsize, *, block):
 recv(1024, True) # TypeError
 recv(1024, block=True) # Ok
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMzE4OTY2NjM3XX0=
--->
