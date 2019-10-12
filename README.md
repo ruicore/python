@@ -1,4 +1,8 @@
-# index
+---
+description: 文档说明
+---
+
+# Python 使用技巧
 
 > This repositorie contains ancillary function which code in python3. Use it freely.
 >
@@ -6,7 +10,7 @@
 >
 > If you had any idea to improve my code or you find any mistake in my file, please contact me. \(Email me at super76rui@icloud.com\)
 
-## Python 使用技巧
+
 
 ### 1.在列表，字典，集合中根据条件筛选数据
 

@@ -1,4 +1,4 @@
 # Table of contents
 
-* [index](README.md)
+* [Python 使用技巧](README.md)
 
