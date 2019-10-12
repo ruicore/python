@@ -1,7 +1,3 @@
----
-description: 文档说明
----
-
 # Python 使用技巧
 
 > This repositorie contains ancillary function which code in python3. Use it freely.
