@@ -1,26 +1,18 @@
-# Python
->This  repositorie contains ancillary function which code in python3. Use it freely.
+# Python 使用技巧
 
+> This repositorie contains ancillary function which code in python3. Use it freely.
+>
+> Crawl web function may conatain error\(s\) as the web elements changed.
+>
+> If you had any idea to improve my code or you find any mistake in my file, please contact me. \(Email me at super76rui@icloud.com\)
 
->Crawl web function may conatain error(s) as the web elements changed.
-
-
->If you had any idea to improve my code or you find any mistake in my file, please contact me. 
->(Email me at super76rui@icloud.com)
-
-
-## Python 使用技巧
 
 
 ### 1.在列表，字典，集合中根据条件筛选数据
-需求：
-1. 过滤 list 中大于 0 的数：[14, 0, -6, 0, -10, -8, -1, 19, -10, -16]
-2. 筛选出字典中值大于 0 的项目：{0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3}
-3. 筛选出集合中能被 2 整除的数：{3, 4, 9, 12, 15, 17, 19, 20}
-4. 找到字典中值最小的健值对：prices = {'ACME': 45.23,'AAPL': 612.78,'IBM': 205.55,'HPQ': 37.20,'FB': 10.75}
-5. 对字典排序，首先按照值排序，值相同再按照健排序
-6. 对字典的健按照值排序
-```py
+
+需求： 1. 过滤 list 中大于 0 的数：\[14, 0, -6, 0, -10, -8, -1, 19, -10, -16\] 2. 筛选出字典中值大于 0 的项目：{0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3} 3. 筛选出集合中能被 2 整除的数：{3, 4, 9, 12, 15, 17, 19, 20} 4. 找到字典中值最小的健值对：prices = {'ACME': 45.23,'AAPL': 612.78,'IBM': 205.55,'HPQ': 37.20,'FB': 10.75} 5. 对字典排序，首先按照值排序，值相同再按照健排序 6. 对字典的健按照值排序
+
+```python
 list_bigger = [x for x in list_nums if x > 0]
 dict_bigget = {k: v for k, v in dict_nums.items() if v > 0}
 set_two = {x for x in set_nums if not x % 2}
@@ -29,11 +21,12 @@ sorted_pairs = sorted(zip(prices.values(),prices.keys()))
 sorted_keys = sorted(prices,prices.get)
 # zip 创建的对象只能访问一次
 ```
+
 ### 2.命名，统计，字典
+
 需求：在表格中，每一行的信息固定，为了访问某个位置的值，不使用索引
 
-
-```py
+```python
 from collections import namedtuple
 
 
@@ -44,13 +37,9 @@ s1 = stuendt(name="12", age=12, sex="female")
 s2 = stuendt(name="12", age=12, sex="male")
 ```
 
+需求： 统计 \[5, 2, 2, 3, 1, 5, 1, 3, 2, 4\] 出现次数最高的 3 的元素，并找到它们的出现次数 统计一个段落中出现次数最高的前 3 个元素，并确定次数
 
-需求：
-统计 [5, 2, 2, 3, 1, 5, 1, 3, 2, 4] 出现次数最高的 3 的元素，并找到它们的出现次数
-统计一个段落中出现次数最高的前 3 个元素，并确定次数
-
-
-```py
+```python
 import re
 from collections import Counter
 
@@ -72,19 +61,17 @@ operator."""
 times = Counter(re.split(r"\W+",text))
 com = times.most_common(3)
 ```
+
 需求：根据字典中值的大小，对字典排序
 
-
-```py
+```python
 nums = {0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3}
 res = sorted(nums.items(), key=lambda x: x[1])
 ```
 
-
 需求：找到多个字典中的公共键
 
-
-```py
+```python
 from functools import reduce
 
 
@@ -95,10 +82,10 @@ c = {'h': 2, 'e': 7, 'b': 11}
 
 res = reduce(lambda x, y: x & y, map(dict.keys, [a, b, c]))
 ```
+
 需求：让字典保持有序
 
-
-```py
+```python
 from collections import OrderedDict
 
 
@@ -106,13 +93,12 @@ order = OrderedDict()
 for x in sample("abcdefgh", randint(3, 6)):
     order[x] = randint(4,10)
 ```
-### 3.字符串
 
+### 3.字符串
 
 需求：根据多个分隔符，拆分字符串
 
-
-```py
+```python
 import re
 
 
@@ -125,12 +111,10 @@ operator."""
 
 res = re.split(r"[\r\n\t\v\\}; .<]+",text)
 ```
+
 需求：调整文本中的字符串格式，将 07/20/2019 替换成为 2019-07-20
 
-
-```py
-
-
+```python
 ## 使用了正则的捕获组
 import re
 text = "07/20/2019"
@@ -138,13 +122,12 @@ text = "07/20/2019"
 
 res = re.sub(r"(\d{2})\/(\d{2})\/(\d{4})", r"\3-\1-\2", text)
 ```
-### 4.遍历
 
+### 4.遍历
 
 需求：同时遍历可迭代对象
 
-
-```py
+```python
 from itertools import chain
 
 
@@ -163,17 +146,13 @@ for x in chain(nums1, nums2, nums3):
     print(x)
 ```
 
-
 ### 5.类
-
 
 需求：为了确保用户输入正确格式的数，强制用户使用函数进行访问；为了简介，通过 property 自动调用函数，实现「设置属性自动调用函数的效果」
 
-
 property 为类创建可管理的属性
-```py
 
-
+```python
 class Control(object):
     def __init__(self, value):
         self.value = value
@@ -192,11 +171,9 @@ class Control(object):
     r = property(get_value, set_value)
 ```
 
-
 需求：实现类的比较
 
-
-```py
+```python
 from functools import total_ordering
 from abc import ABCMeta, abstractmethod
 
@@ -254,11 +231,9 @@ rect = Rect(3, 4)
 print(cricle >= rect)
 ```
 
-
 需求：对实例的类做类型检查
 
-
-```py
+```python
 class Attr(object):
     def __init__(self, name, type_):
         self.name = name
@@ -285,15 +260,11 @@ class Monkey(object):
     name = Attr("name", str)
     age = Attr("age", int)
     gender = Attr("gender", str)
-
-
 ```
-
 
 需求：根据字符串执行实例的函数
 
-
-```py
+```python
 from operator import methodcaller
 
 
@@ -311,14 +282,11 @@ fun = methodcaller("get_value", 2, -1)
 print(fun(mc))
 ```
 
-
 ### 6. 装饰器
-
 
 1. 需求：为某一个函数增加功能，不影响原来的函数
 
-
-```py
+```python
 from functools import wraps, update_wrapper
 
 
@@ -344,10 +312,10 @@ def fibonacci(n):
 
 print(fibonacci(89))
 ```
-2. 带参数的装饰器
 
+1. 带参数的装饰器
 
-```py
+```python
 import time
 import logging
 from random import randint
@@ -402,13 +370,12 @@ test.set_timeout(1.2)
 for i in range(20):
     test()
 ```
-### 7. 优先队列
 
+### 7. 优先队列
 
 需求：实现一个有优先级的队列
 
-
-```py
+```python
 import heapq
 
 
@@ -425,15 +392,11 @@ class PriorityQueue(object):
 
     def pop(self):
         return heapq.heappop(self._queue)[-1] if self._queue else None
-
-
 ```
-
 
 ### 展开嵌套的 list
 
-
-```py
+```python
 from collections.abc import Iterable
 
 
@@ -453,13 +416,12 @@ items = [1, 2, [3, 4, (5, 6), 7], 8, "temp", "core", {-1, -2, -4, -6}]
 for x in flatten(items):
     print(x)
 ```
-### 文件
 
+### 文件
 
 1. 打印输出到文件中
 
-
-```py
+```python
 with open('d:/work/test.txt', 'wt') as f:
     print('Hello World!', file=f)
 
@@ -467,20 +429,16 @@ with open('d:/work/test.txt', 'wt') as f:
 # 文件必须以文本格式打开
 ```
 
-
 1. 文件不存在时才能写入
 
-
-```py
+```python
 with open('somefile', 'xt') as f:
     f.write('Hello\n')
 ```
 
-
 ### 使用强制关键字参数
 
-
-```py
+```python
 def recv(maxsize, *, block):
     'Receives a message'
     pass
