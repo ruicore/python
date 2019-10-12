@@ -6,8 +6,6 @@
 >
 > If you had any idea to improve my code or you find any mistake in my file, please contact me. \(Email me at super76rui@icloud.com\)
 
-
-
 ### 1.在列表，字典，集合中根据条件筛选数据
 
 需求： 
@@ -39,9 +37,7 @@ sorted_keys = sorted(prices,prices.get)
 ```python
 from collections import namedtuple
 
-
 stuendt = namedtuple("Student", ["name", "age", "sex"])
-
 
 s1 = stuendt(name="12", age=12, sex="female")
 s2 = stuendt(name="12", age=12, sex="male")
@@ -53,15 +49,10 @@ s2 = stuendt(name="12", age=12, sex="male")
 import re
 from collections import Counter
 
-
 nums = [5, 2, 2, 3, 1, 5, 1, 3, 2, 4]
-
 
 times = Counter(nums)
 com = times.most_common(3)
-
-
-
 
 text = """If operators with different priorities are used, consider adding
 whitespace around the operators with the lowest priority(ies). Use
@@ -84,11 +75,9 @@ res = sorted(nums.items(), key=lambda x: x[1])
 ```python
 from functools import reduce
 
-
 a = {'b': 7, 'f': 3, 'e': 9}
 b = {'d': 8, 'b': 2, 'f': 8, 'e': 10, 'g': 6}
 c = {'h': 2, 'e': 7, 'b': 11}
-
 
 res = reduce(lambda x, y: x & y, map(dict.keys, [a, b, c]))
 ```
@@ -97,7 +86,6 @@ res = reduce(lambda x, y: x & y, map(dict.keys, [a, b, c]))
 
 ```python
 from collections import OrderedDict
-
 
 order = OrderedDict()
 for x in sample("abcdefgh", randint(3, 6)):
@@ -111,13 +99,11 @@ for x in sample("abcdefgh", randint(3, 6)):
 ```python
 import re
 
-
 text = """If\roperators\r\n with\different<<priorities are\vused, consider adding
 whitespace around the operators with the lowest priority(ies). Use
 your own judgment;;\however, never use more than one space, and
 always have}the\\same amount of whitespace on both sides of a binary
 operator."""
-
 
 res = re.split(r"[\r\n\t\v\\}; .<]+",text)
 ```
@@ -129,7 +115,6 @@ res = re.split(r"[\r\n\t\v\\}; .<]+",text)
 import re
 text = "07/20/2019"
 
-
 res = re.sub(r"(\d{2})\/(\d{2})\/(\d{4})", r"\3-\1-\2", text)
 ```
 
@@ -140,13 +125,9 @@ res = re.sub(r"(\d{2})\/(\d{2})\/(\d{4})", r"\3-\1-\2", text)
 ```python
 from itertools import chain
 
-
-
-
 nums1 = [1, 5, 4, 5]
 nums2 = [2, 3, 3]
 nums3 = [4, 3, 3, 5, 7, 8, 3]
-
 
 ## 并行遍历
 for x, y, z in zip(nums1, nums2, nums3):
@@ -167,16 +148,13 @@ class Control(object):
     def __init__(self, value):
         self.value = value
 
-
     def get_value(self):
         return self.value
-
 
     def set_value(self, num: int):
         if not isinstance(num, (int, float)):
             raise ValueError("please enter num")
         self.value = num
-
 
     r = property(get_value, set_value)
 ```
@@ -187,54 +165,37 @@ class Control(object):
 from functools import total_ordering
 from abc import ABCMeta, abstractmethod
 
-
-
-
 @total_ordering
 class Shape(object):
-
 
     @abstractmethod
     def area(self):
         pass
-
 
     def __lt__(self, obj):
         if not isinstance(obj, Shape):
             raise TypeError("obj is not a shape")
         return self.area() < obj.area()
 
-
     def __eq__(self, obj):
         if not isinstance(obj, Shape):
             raise TypeError("obj is not a shape")
         return self.area() == obj.area()
 
-
-
-
 class Cirlcle(Shape):
     def __init__(self, radius):
         self.radius = radius
 
-
     def area(self):
         return 3.14*self.radius**2
-
-
-
 
 class Rect(Shape):
     def __init__(self, weight, height):
         self.weight = weight
         self.height = height
 
-
     def area(self):
         return self.weight*self.height
-
-
-
 
 cricle = Cirlcle(3)
 rect = Rect(3, 4)
@@ -264,8 +225,6 @@ class Attr(object):
         del instance.__dict__[self.name]
 
 
-
-
 class Monkey(object):
     name = Attr("name", str)
     age = Attr("age", int)
@@ -277,15 +236,9 @@ class Monkey(object):
 ```python
 from operator import methodcaller
 
-
-
-
 class MethonCall(object):
     def get_value(self, value: int, value2: int):
         return 12*value*value2
-
-
-
 
 mc = MethonCall()
 fun = methodcaller("get_value", 2, -1)
@@ -330,12 +283,8 @@ import time
 import logging
 from random import randint
 
-
-
-
 def warn(timeout):
     timeout = [timeout]
-
 
     def decorator(fun):
         def wrapper(*args, **kwargs):
@@ -347,19 +296,13 @@ def warn(timeout):
                 logging.warn("{}:{} > {}".format(fun.__name__, used, timeout[0]))
             return res
 
-
         def set_timeout(k):
             timeout[0] = k
         wrapper.set_timeout = set_timeout
 
-
         return wrapper
 
-
     return decorator
-
-
-
 
 @warn(1)
 def test():
@@ -367,15 +310,10 @@ def test():
     while randint(0, 1):
         time.sleep(0.5)
 
-
-
-
 for i in range(20):
     test()
 
-
 test.set_timeout(1.2)
-
 
 for i in range(20):
     test()
@@ -388,17 +326,14 @@ for i in range(20):
 ```python
 import heapq
 
-
 class PriorityQueue(object):
     def __init__(self):
         self._queue = []
         self._index = 0
 
-
     def push(self, item, priority):
         heapq.heappush(self._queue, (-priority, self._index, item))
         self._index += 1
-
 
     def pop(self):
         return heapq.heappop(self._queue)[-1] if self._queue else None
@@ -409,7 +344,6 @@ class PriorityQueue(object):
 ```python
 from collections.abc import Iterable
 
-
 def flatten(items, ignore_types=(str, bytes)):
     for x in items:
         if isinstance(x, Iterable) and not isinstance(x, ignore_types):
@@ -417,11 +351,7 @@ def flatten(items, ignore_types=(str, bytes)):
         else:
             yield x
 
-
-
-
 items = [1, 2, [3, 4, (5, 6), 7], 8, "temp", "core", {-1, -2, -4, -6}]
-
 
 for x in flatten(items):
     print(x)
@@ -452,7 +382,6 @@ with open('somefile', 'xt') as f:
 def recv(maxsize, *, block):
     'Receives a message'
     pass
-
 
 recv(1024, True) # TypeError
 recv(1024, block=True) # Ok
