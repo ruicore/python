@@ -108,3 +108,5 @@ temp.*
 *.html
 ruicore.*
 .vscode*
+test.*
+*log*/
