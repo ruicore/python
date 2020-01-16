@@ -358,8 +358,6 @@ for x in flatten(items):
 ```
 ### 9. 文件
 
-### 文件
-
 1. 打印输出到文件中
 
 ```python
