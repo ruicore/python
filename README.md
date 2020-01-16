@@ -430,7 +430,7 @@ class PriorityQueue(object):
 ```
 
 
-### 展开嵌套的 list
+### 8. 展开嵌套的 list
 
 
 ```py
@@ -453,7 +453,7 @@ items = [1, 2, [3, 4, (5, 6), 7], 8, "temp", "core", {-1, -2, -4, -6}]
 for x in flatten(items):
     print(x)
 ```
-### 文件
+### 9. 文件
 
 
 1. 打印输出到文件中
@@ -477,7 +477,7 @@ with open('somefile', 'xt') as f:
 ```
 
 
-### 使用强制关键字参数
+### 10. 使用强制关键字参数
 
 
 ```py
@@ -488,4 +488,24 @@ def recv(maxsize, *, block):
 
 recv(1024, True) # TypeError
 recv(1024, block=True) # Ok
+```
+### 11. 比较两个字典是否相等
+
+* 键个数相等，键名一一对应，键值一一对应相等
+```py
+import json
+from datetime import datetime
+
+from bson.json_util import default
+
+
+def compare_2_dict(dict_1, dict_2):
+    return json.dumps(dict_1, default=default, sort_keys=dict.keys) == json.dumps(dict_2, default=default, sort_keys=dict.keys)
+
+
+dicta = {"a": datetime.now(), "b": 2}
+dictb = {"a": datetime.now(), "b": 2}
+
+print(compare_2_dict(dicta, dictb))
+
 ```
