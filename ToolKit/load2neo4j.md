@@ -29,10 +29,10 @@ logger.setLevel("INFO")
 batch_size = 17
 uri = "bolt://localhost:11002" # 使用 bolt 链接的 RUI
 
-cypher_neosemantics = 'UNWIND  $payload as rdf_fragment  \
-      CALL semantics.importRDFSnippet(rdf_fragment,"JSON-LD")  \
-      YIELD terminationStatus, triplesLoaded, triplesParsed, extraInfo \
-      RETURN terminationStatus, sum(triplesLoaded) as totalLoaded, sum(triplesParsed) as totalParsed '
+neosemantics_import_cypher = '''UNWIND  $json_node_list as rdf_fragment 
+        CALL semantics.importRDFSnippet(rdf_fragment,"JSON-LD",{handleMultival: "ARRAY",multivalPropList : ["http://socrates.aidigger.com/property/alias"]})  
+        YIELD terminationStatus, triplesLoaded, triplesParsed, extraInfo 
+        RETURN terminationStatus, sum(triplesLoaded) as totalLoaded, sum(triplesParsed) as totalParsed '''.replace('\n', '')
 
 
 def log_time(func):
