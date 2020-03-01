@@ -1,5 +1,5 @@
 ### 随机分区
-* df.randomSplit([0.5,0.5])
+* dfs = df.randomSplit([0.1] * 10)
 ### 去重复
 * df.drop_duplicates()
 ### join 链接
@@ -14,7 +14,7 @@ full_outer_join = df.join(df_map, df["data"] == df_map["url"], how='full')
 ### df group and count
 ```py
 import pyspark.sql.functions as f
-df.groupBy('key').count().select('key', f.col('count').alias('times')).sort(f.desc("times"))
+new_df = df.groupBy('key').count().select('key', f.col('count').alias('times')).sort(f.desc("times"))
 ```
 ### df and aggregate
 
@@ -57,4 +57,8 @@ new_df = df.groupby("lemma_id").agg(collect_list('data').alias('data'), collect_
     withColumn('alias', myUdf2('alias'))
 ```
 
-### 
+### 导出文件
+
+```py
+df.write.format("orc").save("file:////home/herui/baikeNode/nodes.orc")
+```
