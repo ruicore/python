@@ -110,3 +110,5 @@ ruicore.*
 .vscode*
 test.*
 *log*/
+
+.vscode
