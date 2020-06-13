@@ -3,6 +3,7 @@ exclude: |
     ^venv/|
     ^alembic/|
     ^server.py
+    grpc_learn/helloworld_pb2.py
   )
 repos:
   - repo: https://github.com/asottile/seed-isort-config
@@ -26,3 +27,4 @@ repos:
     rev: v1.2.3
     hooks:
       - id: flake8
+        exclude: grpc_learn/helloworld_pb2.py
