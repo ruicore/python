@@ -114,3 +114,5 @@ test.*
 .vscode
 test*
 node_modules
+.idea
+
