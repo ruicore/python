@@ -1,0 +1,28 @@
+{
+  "name": "python",
+  "version": "1.0.0",
+  "description": "> This repositorie contains ancillary function which code in python3. Use it freely. > > Crawl web function may conatain error\\(s\\) as the web elements changed. > > If you had any idea to improve my code or you find any mistake in my file, please contact me. \\(Email me at super76rui@icloud.com\\)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruicore/python.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruicore/python/issues"
+  },
+  "homepage": "https://github.com/ruicore/python#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

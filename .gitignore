@@ -112,3 +112,5 @@ test.*
 *log*/
 
 .vscode
+test*
+node_modules
