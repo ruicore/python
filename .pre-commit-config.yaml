@@ -13,12 +13,12 @@ repos:
     hooks:
       - id: seed-isort-config
         language_version: python3.8
-#  - repo: https://github.com/pre-commit/mirrors-isort
-#    rev: v4.3.21
-#    hooks:
-#      - id: isort
-#        args: [-rc]
-#        language_version: python3.8
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v4.3.21
+    hooks:
+      - id: isort
+        args: [-rc]
+        language_version: python3.8
   - repo: https://github.com/ambv/black
     rev: stable
     hooks:
