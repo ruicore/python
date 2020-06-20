@@ -4,6 +4,7 @@ exclude: |
     ^alembic/|
     ^server.py
     ^.isort.cfg
+    __init__.py
     grpc_learn/helloworld_pb2.py
   )
 repos:
