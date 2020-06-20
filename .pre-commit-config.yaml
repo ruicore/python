@@ -3,6 +3,7 @@ exclude: |
     ^venv/|
     ^alembic/|
     ^server.py
+    ^.isort.cfg
     grpc_learn/helloworld_pb2.py
   )
 repos:
