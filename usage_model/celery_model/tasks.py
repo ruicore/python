@@ -1,10 +1,10 @@
-import sys
-
 from celery.utils.log import get_logger
 
-from usage_model import app
+from usage_model.celery_model import app
 
-sys.path.append("/Users/herui/Desktop/python/")  # this is for ipython shell
+# for ipython shell, uncomment these two line
+# import sys
+# sys.path.append("/Users/herui/Desktop/python/")
 
 
 logger = get_logger(__name__)
