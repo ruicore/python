@@ -1,6 +1,6 @@
 from functools import partial, wraps
 
-from usage_model.redis_model.client import Redis
+from usage_model import Redis
 
 
 def init_redis(func=None, *, redis: Redis = None):
