@@ -396,7 +396,8 @@ from bson.json_util import default
 
 
 def compare_2_dict(dict_1, dict_2):
-    return json.dumps(dict_1, default=default, sort_keys=dict.keys) == json.dumps(dict_2, default=default, sort_keys=dict.keys)
+    return (json.dumps(dict_1, default=default, sort_keys=dict.keys) ==
+                json.dumps(dict_2, default=default, sort_keys=dict.keys))
 
 
 dicta = {"a": datetime.now(), "b": 2}
