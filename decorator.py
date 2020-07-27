@@ -18,3 +18,35 @@ def test(num):
 
 for i in range(10):
     print(test(i))
+
+
+### Class decorator with args
+
+class _Cache(object):
+    def __init__(self, function, max_hits=10, timeout=5):
+        self.function = function
+        self.max_hits = max_hits
+        self.timeout = timeout
+        self.cache = {}
+
+    def __call__(self, *args):
+        return self.function(*args)
+
+
+
+def Cache(function=None, max_hits=10, timeout=5):
+    if function:
+        return _Cache(function)
+    else:
+        def wrapper(function):
+            return _Cache(function, max_hits, timeout)
+
+        return wrapper
+
+
+@Cache(max_hits=100, timeout=50)
+def double(x):
+    return x * 2
+
+
+print(double(23))
