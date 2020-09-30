@@ -43,3 +43,5 @@ openssl x509 -req -in server.csr -signkey server.key -out server.crt
 
 在 Chrome 浏览器中输入 `thisisunsafe`，直接在浏览器中输入即可
 https://cloud.tencent.com/developer/article/1160294
+
+~~缓存自动刷新(v2.2 及以前版本支持)~~
