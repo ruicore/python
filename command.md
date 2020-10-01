@@ -18,7 +18,7 @@ apt install wget git
 
 wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
 
-cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+cp ~/.oh-my-zsh/templates/zshrc.zsh-templates ~/.zshrc
 
 source ~/.zshrc
 
@@ -38,7 +38,7 @@ nginx -s reload
 
 openssl genrsa -out server.key 2048
 openssl req -new -key server.key -out server.csr
-Common Name (e.g. server FQDN or YOUR name) []:10.10.10.10
+Common Name (e.g. server FQDN or YOUR NAME) []:10.10.10.10
 openssl x509 -req -in server.csr -signkey server.key -out server.crt
 
 在 Chrome 浏览器中输入 `thisisunsafe`，直接在浏览器中输入即可
