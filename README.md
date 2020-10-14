@@ -406,3 +406,16 @@ dictb = {"a": datetime.now(), "b": 2}
 print(compare_2_dict(dicta, dictb))
 
 ```
+
+### 12. lambda
+* 在 for loop 中使用 lambda，如果有赋值，请小心
+
+```py
+t = [lambda : i for i in range(4)]
+m = [lambda i=i: i for i in range(4)]
+
+res_t = [func() for func in t]
+res_m = [func() for func in m]
+```
+* res_t:  [3, 3, 3, 3]
+* rest_m: [0, 1, 2, 3]
