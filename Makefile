@@ -1,5 +1,5 @@
 
-req:
+freeze:
 	pip freeze > requirements.txt
 in-pre:
 	pre-commit install

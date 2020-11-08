@@ -407,7 +407,7 @@ print(compare_2_dict(dicta, dictb))
 
 ```
 
-### 12. lambda
+### 12. Lambda
 * 在 for loop 中使用 lambda，如果有赋值，请小心
 
 ```py
@@ -419,3 +419,17 @@ res_m = [func() for func in m]
 ```
 * res_t:  [3, 3, 3, 3]
 * rest_m: [0, 1, 2, 3]
+
+### 13. Iterator
+* iterator 不走回头路，可以利用此特性来判断 list 是否存在于另一个 list 中
+
+```py
+# a = [1,2,3]
+# b = [1,3,2,4,5,6] 
+# check if all num in a is in b, ordered
+# [1,2,3] is in [1,2,3,4] but [1,2,3] is not in [1,3,2,4]
+
+def check(a, b):
+    b = iter(b)
+    return all(i in b for i in a)
+```

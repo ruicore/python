@@ -134,3 +134,4 @@ if __name__ == "__main__":
     print(c)
     d = calculate("__import__('os').remove('docker.md')")
     print("--", d)
+    from rsa import encrypt
