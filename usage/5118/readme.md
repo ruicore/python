@@ -10,7 +10,7 @@
 ```shell script
 python3.9 -m venv venv
 source venv/bin/activate  
-python install -r it
+pip install -r requirements.txt
 python analysis.py
 ```
 * 程序执行完之后将输出两个文件，`keys.csv`,`res.xlsx`
