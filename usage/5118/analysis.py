@@ -1,10 +1,12 @@
 import logging
+import re
 from collections import Counter, defaultdict
-from functools import wraps
+from functools import wraps, lru_cache
 from pathlib import Path
 from time import time
 from typing import List, Set, Iterable
 
+from itertools import combinations
 import jieba
 import pandas as pd
 from colorlog import ColoredFormatter
@@ -27,7 +29,7 @@ def cache(func):
 
     @wraps(func)
     def wrapper(*args):
-        key = str(sorted(str(x) for x in args))
+        key = str(str(x) for x in args)
         if key not in values:
             values[key] = func(*args)
         return values[key]
@@ -43,7 +45,7 @@ def time_logger(func):
         start = time()
         res = func(*arg, **kwargs)
         end = time()
-        logging.info(f"执行函数 {func.__name__}, 用时 {(end - start):.2f} 秒")
+        logging.info(f"执行函数 {func.__name__}, 用时 {(end - start):.2f} 秒,{(end - start) / 60 / 60} 小时 ")
         return res
 
     return wrapper
@@ -57,7 +59,7 @@ def get_files(directory: str, pattern="*.zip") -> List[Path]:
     return [x for x in path.glob(pattern) if x.is_file()]
 
 
-def write_csv(texts: Set[str], file_name: str) -> bool:
+def write_csv(texts: Iterable[str], file_name: str) -> bool:
     """ 将结果写回 csv 文件 """
     df = pd.DataFrame(texts)
     df.to_csv(file_name, index=False, header=False, encoding="UTF_8_SIG")
@@ -78,6 +80,7 @@ def _aggregate(files: List[Path], skip_rows=None) -> Set[str]:
         df = pd.read_csv(file, encoding="GB18030", skiprows=skip_rows)
         logging.info(f"读取 csv {file.as_posix()}")
         first_column = df.iloc[:, 0]
+        first_column = first_column.apply(lambda x: re.sub(r'[^\u4e00-\u9fa5]', '', x))
         texts.update(set(first_column))
 
     return texts
@@ -117,18 +120,16 @@ def get_counter(words: str):
 @cache
 def build_vector(first: str, second: str):
     """ 为两个短语构建向量 """
-    f_counter = get_counter(first)
-    s_counter = get_counter(second)
+    f_counter, s_counter = get_counter(first), get_counter(second)
+    keys = f_counter.keys() | s_counter.keys()
     f_vector, s_vector = [], []
-
-    for key in f_counter.keys() | s_counter.keys():
+    for key in keys:
         f_vector.append(f_counter.get(key, 0))
         s_vector.append(s_counter.get(key, 0))
 
     return f_vector, s_vector
 
 
-@cache
 def cos_sim(first: List[float], second: List[float]) -> float:
     """计算两个向量之间的余弦相似度"""
     return dot(first, second) / (norm(first) * norm(second))
@@ -138,28 +139,25 @@ def cos_sim(first: List[float], second: List[float]) -> float:
 def group(file_name: str, threshold=0.8):
     """对所有短语进行分组"""
     df = pd.read_csv(file_name)
-    keys = df.iloc[:, 0]
+    keys = list(df.iloc[:, 0])
     visited, groups = set(), defaultdict(set)
 
     loop = 0
-    for i in range(len(keys)):
-        # 遍历所有的短语
-        x = keys[i]
-        if ignore_visited(x, visited):  # 该短语已经被分到别的组中
+    batch = 500000
+    start, end = time(), time()
+    for x, y in combinations(keys, 2):
+        loop += 1
+        if not loop % batch:
+            logging.info(f"处理 {x}:{y}，耗时 {(end - start):.10f} 秒,第 {(loop // batch)}个 50万对")
+            start = end
+        end = time()
+        if ignore_visited(x, visited) or ignore_visited(y, visited):
             continue
-        elements = set()
-        for y in keys[i + 1:]:
-            if ignore_visited(y, visited):  # 该短语已经被分到别的组中
-                continue
-            loop += 1
-            x_vector, y_vector = build_vector(x, y)
-            sim = cos_sim(x_vector, y_vector)
-            if sim >= threshold:
-                elements.add(y)
-                visited.add(y)
-        if elements:
-            elements.add(x)
-            groups[x] = elements
+        x_vector, y_vector = build_vector(x, y)
+        sim = cos_sim(x_vector, y_vector)
+        if sim >= threshold:
+            groups[x].add(y)
+            visited.add(y)
 
     logging.info(f"共有 {len(keys)} 个短语，执行了 {loop} 次循环")
     return groups
