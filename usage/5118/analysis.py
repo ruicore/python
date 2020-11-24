@@ -29,7 +29,7 @@ def cache(func):
 
     @wraps(func)
     def wrapper(*args):
-        key = str(str(x) for x in args)
+        key = "".join(str(x) for x in args)
         if key not in values:
             values[key] = func(*args)
         return values[key]
@@ -117,7 +117,6 @@ def get_counter(words: str):
     return Counter(cut_word(words))
 
 
-@cache
 def build_vector(first: str, second: str):
     """ 为两个短语构建向量 """
     f_counter, s_counter = get_counter(first), get_counter(second)
