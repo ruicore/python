@@ -31,4 +31,5 @@ pip install -r requirements.txt
 * 其中 keys.csv 是所有的关键词，res.xlsx 是分类之后的结果
 
 如果有问题，欢迎微信讨论
-<img src="/wechat.jpeg" width = "220" align=center />
+
+<img src="/Wechat.jpeg" width = "220" align=center />
