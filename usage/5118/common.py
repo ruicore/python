@@ -112,3 +112,8 @@ def cut_word(content) -> Iterable[str]:
 def get_path(file_name):
     file_name = os.path.join(Path(__file__).parent.absolute(), file_name)
     return file_name
+
+def get_stop_words() -> Set[str]:
+    file_path = get_path("stop_words.csv")
+    df = pd.read_csv(file_path)
+    return set(df.iloc[:, 0])

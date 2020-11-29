@@ -5,8 +5,11 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import CountVectorizer
 
-from common import time_logger, cut_word, write_excel, aggregate_files, get_path
+from common import time_logger, cut_word, write_excel, aggregate_files, get_path,  get_stop_words
 from logger import logger
+
+import warnings
+warnings.filterwarnings('ignore')
 
 
 @time_logger
@@ -27,7 +30,7 @@ def group(file_name: str, clusters_count=1000):
     logger.info(f"一共有 {len(keys)} 个词语需要分组")
     split_keys = parse_keys(keys)
 
-    cv = CountVectorizer()
+    cv = CountVectorizer(stop_words=get_stop_words())
     cv_vec = cv.fit_transform(split_keys)
     kmeans = KMeans(n_clusters=clusters_count, random_state=0).fit(cv_vec)
     clusters: List[int] = kmeans.predict(cv_vec)
