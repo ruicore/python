@@ -12,8 +12,9 @@
 
 ```shell script
 python3.9 -m venv venv
-source venv/bin/activate  
-pip install -r requirements.txt
+source venv/bin/activate （Mac）
+.\venv\Scripts\activate.bat （Windows）
+pip install -r requirements.txt -i https://pypi.doubanio.com/simple
 ```
 
 ### 一、使用余弦相似度进行聚合
