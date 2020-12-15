@@ -26,9 +26,14 @@ pip install -r requirements.txt -i https://pypi.doubanio.com/simple
 
 ### 二、使用机器学习 Kmeans 进行聚合
 * **确保准备工作已经被执行**
+* 在根目录（5118）创建 `res` 文件夹
 * 在根目录（5118）终端下，执行 `python kmeans.py`
 * 这个方法需要修改一个参数 `clusters_count`, 详见代码的说明
-* 程序执行完之后将输出两个文件，`keys.csv`,`res.xlsx`
+* 程序执行完之后将输出两个文件和一个文件夹下的 n 文件
+* 其中：
+    * `keys.csv`：是所有的关键词
+    * `times.xlsx`: 所有的关键词（含有词频）
+    * res: 此文件夹存放分组之后的结果
 * 其中 keys.csv 是所有的关键词，res.xlsx 是分类之后的结果
 
 如果有问题，欢迎微信讨论
