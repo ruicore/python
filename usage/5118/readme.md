@@ -16,7 +16,7 @@ source venv/bin/activate （Mac）
 .\venv\Scripts\activate.bat （Windows）
 pip install -r requirements.txt -i https://pypi.doubanio.com/simple
 ```
-
+* **如果是跑大量数据，建议使用 kmeans 的方法，余弦相似度方法只是提供一个代码实现示例**
 ### 一、使用余弦相似度进行聚合
 * **确保准备工作已经被执行**
 * 在根目录（5118） 终端下，执行 `python cosine.py`
@@ -31,10 +31,9 @@ pip install -r requirements.txt -i https://pypi.doubanio.com/simple
 * 这个方法需要修改一个参数 `clusters_count`, 详见代码的说明
 * 程序执行完之后将输出两个文件和一个文件夹下的 n 文件
 * 其中：
-    * `keys.csv`：是所有的关键词
-    * `times.xlsx`: 所有的关键词（含有词频）
-    * res: 此文件夹存放分组之后的结果
-* 其中 keys.csv 是所有的关键词，res.xlsx 是分类之后的结果
+    * `keys.csv`：是所有的关键词（不含词频）
+    * `times.xlsx`: 所有的关键词（含词频）
+    * `res`: 此文件夹存放分组之后的结果
 
 如果有问题，欢迎微信讨论
 
