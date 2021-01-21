@@ -5,24 +5,13 @@ class Count:
 
     def __call__(self, *arg, **kwargs):
         self.count += 1
-        print(
-            f"{str(self.func)} is called, already called for {self.count} times <including current>"
-        )
+        print(f"{str(self.func)} is called for {self.count} times <including current>")
         return self.func(*arg, **kwargs)
 
 
-@Count
-def test(num):
-    return 1 + num
+class Cache(object):
+    """class decorator with args"""
 
-
-for i in range(10):
-    print(test(i))
-
-
-### Class decorator with args
-
-class _Cache(object):
     def __init__(self, function, max_hits=10, timeout=5):
         self.function = function
         self.max_hits = max_hits
@@ -33,20 +22,28 @@ class _Cache(object):
         return self.function(*args)
 
 
-
-def Cache(function=None, max_hits=10, timeout=5):
+def cache(function=None, max_hits=10, timeout=5):
     if function:
-        return _Cache(function)
+        return Cache(function)
     else:
         def wrapper(function):
-            return _Cache(function, max_hits, timeout)
+            return Cache(function, max_hits, timeout)
 
         return wrapper
 
 
-@Cache(max_hits=100, timeout=50)
+@cache(max_hits=100, timeout=50)
 def double(x):
     return x * 2
 
 
-print(double(23))
+@Count
+def add(num):
+    return 1 + num
+
+
+for i in range(10):
+    print(add(i))
+
+for i in range(10):
+    print(double(23))

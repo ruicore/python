@@ -1,6 +1,29 @@
 # 说明
 * 这个目录维护了 Python 一些常见的使用示例
 
-## tree
+## 5118
+* 使用 Python 对 5118 下的数据进行分析，聚合
 
-* 在 postgres 数据库中使用 tree，包括创建节点，查询节点，查询父节点下的所有子节点，查询当前节点到跟节点的所有节点
+## decorator
+* 一些 decorator 的使用方法
+
+## kafka
+* kafka 使用示例
+
+## read_file
+* 读取大文件示例
+
+## redis
+* redis 使用示例
+
+## tree
+* 在 Postgres 数据库中使用 tree，包括创建节点，查询节点，查询父节点下的所有子节点，查询当前节点到跟节点的所有节点
+
+## multi_proc
+* 多进程使用示例
+
+## safe_eval
+* 代替 Python 原生的 eval 函数，只进行允许的表达式运算
+
+
+
