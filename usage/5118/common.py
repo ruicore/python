@@ -79,7 +79,7 @@ def _aggregate(files: List[Path], skip_rows=None) -> Set[str]:
         df = pd.read_csv(file, encoding="GB18030", skiprows=skip_rows)
         logging.info(f"读取 csv {file.as_posix()}")
         first_column = df.iloc[:, 0]
-        first_column = first_column.apply(lambda x: re.sub(r'[^\u4e00-\u9fa5]', '', x))
+        first_column = first_column.apply(lambda x: re.sub(r'[^\u4e00-\u9fa5]', '', str(x)))
         texts.update(set(first_column))
 
     return texts
