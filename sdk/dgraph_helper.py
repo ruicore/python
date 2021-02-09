@@ -1,20 +1,20 @@
-import json
-from typing import Any, Dict, List, Optional
-
-import pydgraph
-from pydgraph.proto import api_pb2 as api
-
-import pydantic_types as types
-DGRAPH_URL = "dgraph-alpha:9080"
-
-stub = pydgraph.DgraphClientStub(DGRAPH_URL)
-client = pydgraph.DgraphClient(stub)
-
 """
 in dgraph, when you delete a node, the node will still exist with a single predicate `uid`.
 in order to get rid of this node when doing query.
 we add `type` field for each node, then use @filter(has(type) to ignore this node.
 """
+
+import json
+import types
+from typing import Any, Dict, List, Optional
+
+import pydgraph
+from pydgraph.proto import api_pb2 as api
+
+DGRAPH_URL = 'dgraph-alpha:9080'
+
+stub = pydgraph.DgraphClientStub(DGRAPH_URL)
+client = pydgraph.DgraphClient(stub)
 
 
 def set_schema():
@@ -99,7 +99,7 @@ def get_tree(uid: str) -> Optional[types.Tree]:
 
     variables = {'$uid': uid}
     data = execute_query(query, variables)
-    if tree := data["tree"]:  # tree is empty list
+    if tree := data['tree']:  # tree is empty list
         return types.Tree(**tree[0])
     else:
         return None
@@ -114,11 +114,13 @@ def get_tree_with_depth(uid: str, depth: int = 2) -> Optional[types.Tree]:
             madeOf
           }
         }
-    """.replace("__depth__", str(depth))
+    """.replace(
+        '__depth__', str(depth)
+    )
 
     variables = {'$uid': uid}
     data = execute_query(query, variables)
-    if tree := data["tree"]:  # tree is empty list
+    if tree := data['tree']:  # tree is empty list
         return types.Tree(**tree[0])
     else:
         return None
@@ -135,10 +137,14 @@ def get_path(start: str, end: str):
                 name
                 uid
              }
-    }""".replace("_from_", start).replace("_to_", end)
+    }""".replace(
+        '_from_', start
+    ).replace(
+        '_to_', end
+    )
 
     data = execute_query(query)
-    return next(iter(data["_path_"])) if data["_path_"] else {}
+    return next(iter(data['_path_'])) if data['_path_'] else {}
 
 
 def get_node(uid: str) -> Optional[types.Tree]:
@@ -157,7 +163,7 @@ def get_node(uid: str) -> Optional[types.Tree]:
 
     variables = {'$uid': uid}
     data = execute_query(query, variables)
-    if node := data["node"]:  # node is empty list
+    if node := data['node']:  # node is empty list
         return types.Tree(**node[0])
     else:
         return None
@@ -179,11 +185,13 @@ def list_tree_with_depth(uids: List[str], depth: int = 2) -> Optional[List[types
               madeOf
             }
         }
-    """.replace("__depth__", str(depth))
+    """.replace(
+        '__depth__', str(depth)
+    )
     uids = '[' + ','.join(uids) + ']'
     variables = {'$uids': uids}
     data = execute_query(query, variables)
-    if trees := data["trees"]:
+    if trees := data['trees']:
         return [types.Tree(**tree) for tree in trees]
     else:
         return None
@@ -194,12 +202,12 @@ def create_node(node: Dict[str, Any]) -> str:  # noqa
     this func is used for `create node`, `update node`,
     return uid<str>
     """
-    if "dgraph.type" not in node:
-        node["dgraph.type"] = "Material"  # must specify type for `delete` to work
-    if "uid" not in node:
-        node["uid"] = "_:uid"
+    if 'dgraph.type' not in node:
+        node['dgraph.type'] = 'Material'  # must specify type for `delete` to work
+    if 'uid' not in node:
+        node['uid'] = '_:uid'
 
-    return execute_mutate(set_obj=node).uids["uid"]
+    return execute_mutate(set_obj=node).uids['uid']
 
 
 def create_edge(edge: Dict[str, Any]) -> None:
@@ -244,7 +252,7 @@ def update_edge(edge: dict) -> None:  # noqa
             }
     """
     # first: delete origin edge
-    root_uid = edge["uid"]
+    root_uid = edge['uid']
     delete_edge_for_node(root_uid)
     # second: create new edge
     execute_mutate(set_obj=edge)
@@ -270,7 +278,7 @@ def delete_edge(edges: Dict[str, Any] = None):
     """
     txn = client.txn()
     try:
-        mutation = api.Mutation(delete_json=bytes(json.dumps(edges), encoding="utf-8"))
+        mutation = api.Mutation(delete_json=bytes(json.dumps(edges), encoding='utf-8'))
         future = txn.async_mutate(mutation=mutation, commit_now=True)
         response = pydgraph.Txn.handle_mutate_future(txn, future, True)
     finally:
@@ -293,14 +301,16 @@ def delete_edge_for_node(uid: str) -> None:
         }
     """
 
-    tree = execute_query(query, variables={"$uid": uid})["tree"]  # return [{'uid': '0x1117f'}]
+    tree = execute_query(query, variables={'$uid': uid})[
+        'tree'
+    ]  # return [{'uid': '0x1117f'}]
     if not tree:
         return
     tree = next(iter(tree))
     edges_deleted = {
-        "uid": tree["uid"],
-        "procedure": None,
-        "madeOf": [{"uid": sub_tree["uid"]} for sub_tree in tree["madeOf"]]
+        'uid': tree['uid'],
+        'procedure': None,
+        'madeOf': [{'uid': sub_tree['uid']} for sub_tree in tree['madeOf']],
     }
     delete_edge(edges_deleted)
 
@@ -313,7 +323,7 @@ def delete_node(uid: str):
 
 
 def delete_nodes(uids: List[str]):
-    execute_mutate(del_obj=[{"uid": uid} for uid in uids])
+    execute_mutate(del_obj=[{'uid': uid} for uid in uids])
 
 
 if __name__ == '__main__':

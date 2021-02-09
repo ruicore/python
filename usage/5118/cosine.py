@@ -6,10 +6,9 @@ from typing import List, Set
 
 import jieba
 import pandas as pd
+from common import aggregate_files, cache, cut_word, time_logger, write_excel
 from numpy import dot
 from numpy.linalg import norm
-
-from common import cache, aggregate_files, write_excel, time_logger, cut_word
 
 jieba.setLogLevel(logging.INFO)
 
@@ -57,7 +56,9 @@ def group(file_name: str, threshold=0.8):
     for x, y in combinations(keys, 2):
         loop += 1
         if not loop % batch:
-            logging.info(f"处理 {x}:{y}，耗时 {(end - start):.10f} 秒,第 {(loop // batch)}个 50万对")
+            logging.info(
+                f'处理 {x}:{y}，耗时 {(end - start):.10f} 秒,第 {(loop // batch)}个 50万对'
+            )
             start = end
         end = time()
         if ignore_visited(x, visited) or ignore_visited(y, visited):
@@ -68,12 +69,14 @@ def group(file_name: str, threshold=0.8):
             groups[x].add(y)
             visited.add(y)
 
-    logging.info(f"共有 {len(keys)} 个短语，执行了 {loop} 次循环")
+    logging.info(f'共有 {len(keys)} 个短语，执行了 {loop} 次循环')
     return groups
 
 
 @time_logger
-def analysis(directory: str = "./zip", aggregate=False, key_file="keys.csv", res_file="res.xlsx"):
+def analysis(
+    directory: str = './zip', aggregate=False, key_file='keys.csv', res_file='res.xlsx'
+):
     if aggregate:
         aggregate_files(directory, key_file)
     groups = group(key_file, threshold=0.8)
