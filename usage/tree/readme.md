@@ -1,7 +1,7 @@
 # Tree
 
 * Sqlalchemy Tree with Postgresql Recursive CTE
-* A Simple Usage for Tree in Postgresql with Sqlalchemy 
+* A Simple Usage for Tree in Postgresql with Sqlalchemy
 
 ## Model
 

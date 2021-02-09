@@ -5,7 +5,7 @@ class Count:
 
     def __call__(self, *arg, **kwargs):
         self.count += 1
-        print(f"{str(self.func)} is called for {self.count} times <including current>")
+        print(f'{str(self.func)} is called for {self.count} times <including current>')
         return self.func(*arg, **kwargs)
 
 
@@ -26,6 +26,7 @@ def cache(function=None, max_hits=10, timeout=5):
     if function:
         return Cache(function)
     else:
+
         def wrapper(function):
             return Cache(function, max_hits, timeout)
 

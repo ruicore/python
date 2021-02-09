@@ -1,11 +1,10 @@
 import concurrent.futures
-
 import time
 
 
 def sample(seconds: int):
     time.sleep(seconds)
-    print(f"wait for {seconds}")
+    print(f'wait for {seconds}')
     return seconds
 
 

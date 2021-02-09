@@ -2,7 +2,9 @@ from typing import List, Optional
 
 import sqlalchemy as sa
 from pydantic import BaseModel
-from sqlalchemy import Column, Integer, ForeignKey, String, create_engine, literal, any_, select, column
+from sqlalchemy import (
+    Column, ForeignKey, Integer, String, any_, column, create_engine, literal, select,
+)
 from sqlalchemy.dialects.postgresql import array
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, aliased
@@ -16,19 +18,21 @@ Base.metadata.bind = engine
 
 
 class Tree(Base):
-    """sqlalchmy model"""
-    __tablename__ = "tree"
+    """sqlalchemy model"""
+
+    __tablename__ = 'tree'
     id = Column(Integer, primary_key=True)
-    parent_id = Column(Integer, ForeignKey("tree.id"))
+    parent_id = Column(Integer, ForeignKey('tree.id'))
     name = Column(String)
 
 
 class TreeNode(BaseModel):
     """pydantic model"""
+
     id: int
     parent_id: Optional[int]
     name: str
-    children: List["TreeNode"] = []
+    children: List['TreeNode'] = []
 
 
 TreeNode.update_forward_refs()
@@ -38,14 +42,14 @@ def init_data():
     Base.metadata.create_all()
     session.add_all(
         (
-            Tree(id=0, name="root"),
-            Tree(id=1, parent_id=0, name="第一层第一个节点"),
-            Tree(id=2, parent_id=0, name="第一层第二个节点"),
-            Tree(id=3, parent_id=1, name="第二层第一个节点"),
-            Tree(id=4, parent_id=1, name="第二层第二个节点"),
-            Tree(id=5, parent_id=2, name="第二层第三个节点"),
-            Tree(id=6, parent_id=2, name="第二层第四个节点"),
-            Tree(id=8, parent_id=3, name="第三层第一个节点")
+            Tree(id=0, name='root'),
+            Tree(id=1, parent_id=0, name='第一层第一个节点'),
+            Tree(id=2, parent_id=0, name='第一层第二个节点'),
+            Tree(id=3, parent_id=1, name='第二层第一个节点'),
+            Tree(id=4, parent_id=1, name='第二层第二个节点'),
+            Tree(id=5, parent_id=2, name='第二层第三个节点'),
+            Tree(id=6, parent_id=2, name='第二层第四个节点'),
+            Tree(id=8, parent_id=3, name='第三层第一个节点'),
         )
     )
     session.commit()
@@ -68,48 +72,51 @@ def _get_nodes(node_id: int, id_col: IA, pid_col: IA, to_root: bool, *other_col)
     class_model = id_col.class_
     other_col_names = [col.name for col in other_col]
 
-    hierarchy = select(
-        [
-            id_col.label("id"),
-            pid_col.label("parent_id"),
-            *other_col,
-            literal(0).label('level'),
-            array((id_col,)).label("path"),  # array need tuple
-            literal(False).label("cycle"),
-        ]
-    ).where(id_col == node_id).cte(name="hierarchy", recursive=True)
+    hierarchy = (
+        select(
+            [
+                id_col.label('id'),
+                pid_col.label('parent_id'),
+                *other_col,
+                literal(0).label('level'),
+                array((id_col,)).label('path'),  # array need tuple
+                literal(False).label('cycle'),
+            ]
+        )
+        .where(id_col == node_id)
+        .cte(name='hierarchy', recursive=True)
+    )
 
-    next_alias = aliased(class_model, name="next_level")
+    next_alias = aliased(class_model, name='next_level')
     alias_id_col = getattr(next_alias, id_col.name)
     alias_pid_col = getattr(next_alias, pid_col.name)
     alias_other_col = [getattr(next_alias, col.name) for col in other_col]
 
     if to_root is True:
-        "第一层的 parent_id 是下一层的 id"
+        '第一层的 parent_id 是下一层的 id'
         join_condition = hierarchy.c.parent_id == alias_id_col
     else:
-        "第一层的 id 是下一层的 parent_id"
+        '第一层的 id 是下一层的 parent_id'
         join_condition = hierarchy.c.id == alias_pid_col
 
     hierarchy = hierarchy.union_all(
         select(
             [
-                alias_id_col.label("id"),
-                alias_pid_col.label("parent_id"),
+                alias_id_col.label('id'),
+                alias_pid_col.label('parent_id'),
                 *alias_other_col,
-                (hierarchy.c.level + 1).label("level"),
-                (hierarchy.c.path + array((alias_id_col,))).label("path"),
-                (alias_id_col == any_(hierarchy.c.path)).label("cycle")
+                (hierarchy.c.level + 1).label('level'),
+                (hierarchy.c.path + array((alias_id_col,))).label('path'),
+                (alias_id_col == any_(hierarchy.c.path)).label('cycle'),
             ]
-        ).where(hierarchy.c.cycle.is_(False)).select_from(
-            hierarchy.join(
-                next_alias, join_condition, isouter=False
-            )
         )
+        .where(hierarchy.c.cycle.is_(False))
+        .select_from(hierarchy.join(next_alias, join_condition, isouter=False))
     )
 
-    q = sa.select([column("id"), column("parent_id"), *[column(name) for name in other_col_names]]).select_from(
-        hierarchy)
+    q = sa.select(
+        [column('id'), column('parent_id'), *[column(name) for name in other_col_names]]
+    ).select_from(hierarchy)
 
     return session.execute(q)
 
@@ -154,7 +161,7 @@ def check_move(start: int, to_node: int):
     child_nodes = get_children_nodes(start, Tree.id, Tree.parent_id)
     child_ids = [i[0] for i in child_nodes]
     if to_node in child_ids:
-        raise Exception("不允许将节点移动到子节点下")
+        raise Exception('不允许将节点移动到子节点下')
 
 
 if __name__ == '__main__':

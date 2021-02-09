@@ -19,11 +19,11 @@ def IF(*values) -> Union[float, int, str]:  # noqa
 FunctionEvaluator = Callable[[List[Union[float, int]]], Union[float, int, str]]
 
 FUNCTIONS_MAP: Dict[str, FunctionEvaluator] = {
-    "SUM": sum,
-    "MIN": min,
-    "MAX": max,
-    "AVG": AVG,
-    "IF": IF,
+    'SUM': sum,
+    'MIN': min,
+    'MAX': max,
+    'AVG': AVG,
+    'IF': IF,
 }
 
 OPERATORS = {
@@ -48,7 +48,7 @@ def custom_eval(node, value_map=None):
     if isinstance(node, ast.Call):
         values = [custom_eval(v) for v in node.args]
         func_name = node.func.id
-        if func_name in {"AVG", "IF"}:
+        if func_name in {'AVG', 'IF'}:
             return FUNCTIONS_MAP[func_name](*values)
         elif func_name in FUNCTIONS_MAP:
             return FUNCTIONS_MAP[func_name](values)
@@ -73,7 +73,7 @@ def custom_eval(node, value_map=None):
     elif isinstance(node, ast.Name):
         name = node.id
         if value_map is None:
-            raise ValueError("value_map must not be None")
+            raise ValueError('value_map must not be None')
         if name not in value_map:
             raise KeyError()
         try:
@@ -90,12 +90,12 @@ def handle_special_char(expr: str):
     """
 
     def handle_percent_sign(matched):
-        span = matched.group("number")
+        span = matched.group('number')
         span = float(span[:-1])
         return str(span / 100)
 
-    expr = expr.replace("^", "**")
-    res = re.sub("(?P<number>[0-9]+%)", handle_percent_sign, expr)
+    expr = expr.replace('^', '**')
+    res = re.sub('(?P<number>[0-9]+%)', handle_percent_sign, expr)
     return res
 
 
@@ -122,16 +122,15 @@ def calculate(expr, value_map=None, millisecond=100):
     return res
 
 
-if __name__ == "__main__":
-    a = {"122": 1122}
-    b = "(2*id_122 + 1)*2 * SUM(2,3) + IF(1>2,1,3)"
-    print(calculate(b, value_map={"id_122": 2}))
-    a = calculate("5*(2+3)")
+if __name__ == '__main__':
+    a = {'122': 1122}
+    b = '(2*id_122 + 1)*2 * SUM(2,3) + IF(1>2,1,3)'
+    print(calculate(b, value_map={'id_122': 2}))
+    a = calculate('5*(2+3)')
     print(a)
-    b = calculate("-40*1+2*6-2")
+    b = calculate('-40*1+2*6-2')
     print(b)
-    c = calculate("9**9**9**9**9**9**9**9")
+    c = calculate('9**9**9**9**9**9**9**9')
     print(c)
     d = calculate("__import__('os').remove('docker.md')")
-    print("--", d)
-    from rsa import encrypt
+    print('--', d)

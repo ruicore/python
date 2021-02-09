@@ -10,7 +10,7 @@ class Producer:
             bootstrap_servers=[broker],
             value_serializer=lambda v: json.dumps(v).encode('utf-8'),
             api_version=(1, 0),
-            retries=3
+            retries=3,
         )
 
     def publish(self, topic, msg):

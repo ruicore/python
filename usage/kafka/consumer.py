@@ -1,4 +1,5 @@
 import json
+
 from kafka import KafkaConsumer
 
 
@@ -13,7 +14,6 @@ def decode(v):
 
 
 class Consumer:
-
     def __init__(self, brokers, group_id):
         self.client: KafkaConsumer = KafkaConsumer(
             bootstrap_servers=brokers,

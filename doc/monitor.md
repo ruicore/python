@@ -64,7 +64,7 @@
 
 **数据存储：**
 
-* mysql 
+* mysql
 * prostgresq
 
 **优势**
@@ -91,7 +91,7 @@
 * 数据传输基于 TCP 协议，Agent 节点能自动获取到系统的基础监控指标，并上报给 Transfer，Agent与Transfer建立了 TCP 长连接，每隔60秒发送一次数据到 Transfer。
 
 Agent 组件直接支持 CPU、Load、内存、磁盘、IO 等指标，有第三方扩展组件可支持更多的数据采集。
-* 
+*
 **优势：**
 
 * 自动采集能力：Falcon-agent 能自动采集服务器的 200 多个基础指标(比如 CPU、内存等)，无需在 Server 上做任何配置，这一点可以秒杀 Zabbix。
