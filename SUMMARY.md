@@ -16,4 +16,3 @@
   * [Batch Read file](usage/read_file.md)
 * [sdk](sdk/README.md)
   * [load2neo4j](sdk/load2neo4j.md)
-

@@ -6,4 +6,3 @@
 * 需要更改 test\_private 文件的权限 chmod 0600 test\_private
 * 即可使用 ssh 方式登陆：ssh root@xxx.xxx.xxx.xxx  -i ~/.ssh/test\_private
 * -i 表示使用指定的密钥文件
-

@@ -37,4 +37,3 @@ openssl genrsa -out server.key 2048 openssl req -new -key server.key -out server
 在 Chrome 浏览器中输入 `thisisunsafe`，直接在浏览器中输入即可 [https://cloud.tencent.com/developer/article/1160294](https://cloud.tencent.com/developer/article/1160294)
 
 ~~缓存自动刷新\(v2.2 及以前版本支持\)~~
-

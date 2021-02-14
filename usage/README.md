@@ -33,4 +33,3 @@
 ## safe\_eval
 
 * 代替 Python 原生的 eval 函数，只进行允许的表达式运算
-

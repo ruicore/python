@@ -72,4 +72,3 @@ new_df = df.groupby("lemma_id").agg(collect_list('data').alias('data'), collect_
 ```python
 df.write.format("orc").save("file:////home/herui/baikeNode/nodes.orc")
 ```
-

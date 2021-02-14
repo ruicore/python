@@ -88,4 +88,3 @@ if __name__ == "__main__":
 * 在 Neo4j 提供的网页界面中，使用如下命令导入导出：
 * 导出：`CALL apoc.export.graphml.all(<filename.graphml>, {useTypes:true, storeNodeIds:false,readLabels:true})`
 * 导入：`CALL apoc.import.graphml(<filename.graphml>, {batchSize: 10000, storeNodeIds: false,readLabels:true})`
-
