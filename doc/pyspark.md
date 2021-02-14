@@ -1,34 +1,44 @@
-### 随机分区
-* dfs = df.randomSplit([0.1] * 10)
-### 去重复
-* df.drop_duplicates()
-### join 链接
+# pyspark
+
+## 随机分区
+
+* dfs = df.randomSplit\(\[0.1\] \* 10\)
+
+  **去重复**
+
+* df.drop\_duplicates\(\)
+
+  **join 链接**
 
 * 根据某个字段将不同的数据合并起来
-```py
-from pyspark.sql.functions import col
 
-left_join = df.alias('ac').join(df_alias.alias('bc'), df["lemma_id"] == df_alias["lemma_id"], how='left_outer').select([col('ac.' + x) for x in df.columns] + [col('bc.key_words')])
-full_outer_join = df.join(df_map, df["data"] == df_map["url"], how='full')
-```
+  \`\`\`py from pyspark.sql.functions import col
+
+left\_join = df.alias\('ac'\).join\(df\_alias.alias\('bc'\), df\["lemma\_id"\] == df\_alias\["lemma\_id"\], how='left\_outer'\).select\(\[col\('ac.' + x\) for x in df.columns\] + \[col\('bc.key\_words'\)\]\) full\_outer\_join = df.join\(df\_map, df\["data"\] == df\_map\["url"\], how='full'\)
+
+```text
 ### df group and count
 ```py
 import pyspark.sql.functions as f
 new_df = df.groupBy('key').count().select('key', f.col('count').alias('times')).sort(f.desc("times"))
 ```
-### df and aggregate
+
+## df and aggregate
 
 * 使用场景：需要根据一个字段对原数据进行 group，然后对 group 过后的每个组内的相同字段采用某种方式合并，如：
 * 根据 id 将下面的数据分组，将每个组内的 data 合并。
-```py
-{"id":1,"data":{"key1":"value1","key2":"value2"}}
+
+  \`\`\`py
+
+  {"id":1,"data":{"key1":"value1","key2":"value2"}}
 
 {"id":2,"data":{"key1":"value1","key3":"value3"}}
 
 {"id":2,"data":{"key4":"value4","key4":"value4"}}
 
 {"id":1,"data":{"key5":"value5","key2":"value2"}}
-```
+
+```text
 ```py
 from pyspark.sql.types import StringType
 from pyspark.sql.functions import col, collect_list, concat_ws, udf
@@ -57,8 +67,9 @@ new_df = df.groupby("lemma_id").agg(collect_list('data').alias('data'), collect_
     withColumn('alias', myUdf2('alias'))
 ```
 
-### 导出文件
+## 导出文件
 
-```py
+```python
 df.write.format("orc").save("file:////home/herui/baikeNode/nodes.orc")
 ```
+

@@ -1,19 +1,22 @@
+# monitor
+
 ## 监控调研
 
 ### 一、监控分类
 
 #### 1、日志类
+
 * 代码运行、业务逻辑产生的日志，日志信息一般是半结构化的文本内容。
 * 常见解决方案： ELK 技术栈，【Grafana + Loki 作为其轻量的替代方案，也开始受到关注】。
 
 #### 2、调用链类
-* 调用链类监控指记录一个请求的全部流程。一个请求从开始进入，在微服务中调用不同的服务节点后，再返回给客户端，在这个过程中通过调用链参数来追寻全链路行为。
 
+* 调用链类监控指记录一个请求的全部流程。一个请求从开始进入，在微服务中调用不同的服务节点后，再返回给客户端，在这个过程中通过调用链参数来追寻全链路行为。
 * Apollo Federation 提供 [Trace](https://www.apollographql.com/docs/federation/metrics/)。
 
 #### 3、度量类
-* 度量类主要采用 `时序数据库` 作为存储，用于查看一些指标数据和指标趋势，然后根据一定的规则进行报警。
 
+* 度量类主要采用 `时序数据库` 作为存储，用于查看一些指标数据和指标趋势，然后根据一定的规则进行报警。
 * 度量类主要用作性能分析和预警。
 
 ### 二、监控指标
@@ -42,10 +45,10 @@
 
 #### （二）应用层
 
-&nbsp;&nbsp;&nbsp;&nbsp;应用层指不同服务的监控，如接口、框架、某个服务的健康状态等，常见的指标有：
+    应用层指不同服务的监控，如接口、框架、某个服务的健康状态等，常见的指标有：
 
 * 延迟时间: 响应一个请求所消耗的延迟
-* 请求量: 每秒处理多少次请求(QPS)
+* 请求量: 每秒处理多少次请求\(QPS\)
 * 耗时：某个接口请求的平均耗时
 * 错误率: 某接口一段时间内调用时失败的次数
 
@@ -53,7 +56,7 @@
 
 一套监控系统应主要由 数据采集、数据存储、数据展示 三部分构成。
 
-##### 1、Zabbix
+**1、Zabbix**
 
 * Zabbix 于 1998 年诞生，是老牌监控系统，核心组件采用 C 语言开发，监控功能全面。
 * 主要监控场景：硬件监控、系统监控，网络监控。
@@ -82,30 +85,31 @@
 * 性能瓶颈：数据量增大之后，关系型数据库的写入一定是瓶颈，官方给出的单机上限是 5000 台，虽然最新版已经开始支持时序数据库，不过成熟度还不高。
 * 更适合监控物理主机，**对容器（Docker）监控支持较差**。
 
-##### 2. Open-Falcon
+**2. Open-Falcon**
 
 * 主要监控场景：CPU、内存、磁盘、IO、网络相关、内核参数、端口采集、核心服务的进程存活信息采集、关键业务进程资源消耗、NTP offset采集、DNS解析采集等监控。
 * Open-Falcon 最初为小米公司开发，采用多模块架构，初始部署比较复杂。
 
 **数据采集**
+
 * 数据传输基于 TCP 协议，Agent 节点能自动获取到系统的基础监控指标，并上报给 Transfer，Agent与Transfer建立了 TCP 长连接，每隔60秒发送一次数据到 Transfer。
 
-Agent 组件直接支持 CPU、Load、内存、磁盘、IO 等指标，有第三方扩展组件可支持更多的数据采集。
-*
-**优势：**
+Agent 组件直接支持 CPU、Load、内存、磁盘、IO 等指标，有第三方扩展组件可支持更多的数据采集。  _\*优势：_
 
-* 自动采集能力：Falcon-agent 能自动采集服务器的 200 多个基础指标(比如 CPU、内存等)，无需在 Server 上做任何配置，这一点可以秒杀 Zabbix。
+* 自动采集能力：Falcon-agent 能自动采集服务器的 200 多个基础指标\(比如 CPU、内存等\)，无需在 Server 上做任何配置，这一点可以秒杀 Zabbix。
 * 强大的存储能力：底层采用 RRDTool，并且通过一致性 Hash 进行数据分片，构建了一个分布式的时序数据存储系统，可扩展性强。
 * 灵活的数据模型：借鉴 OpenTSDB，数据模型中引入了 Tag，这样能支持多维度的聚合统计以及告警规则设置，大大提高了使用效率。
 * 插件统一管理：Open-Falcon 的插件机制实现了对用户自定义脚本的统一化管理，可通过 HeartBeat Server 分发给 Agent，减轻了使用者自主维护脚本的成本。
-个性化监控支持：基于 Proxy-gateway，很容易通过自主埋点实现应用层的监控(比如监控接口的访问量和耗时)和其他个性化监控需求，集成方便。
+
+  个性化监控支持：基于 Proxy-gateway，很容易通过自主埋点实现应用层的监控\(比如监控接口的访问量和耗时\)和其他个性化监控需求，集成方便。
 
 **劣势：**
+
 * 安装比较复杂：个人的亲身感受，由于它是从小米内部衍生出来的，虽然去掉了对小米内部系统的依赖，但是组件还是比较多，如果对整个架构不熟悉，安装很难一蹴而就。
 * 整体发展一般：社区活跃度不算高，同时版本更新慢，有些大厂是基于它的稳定版本直接做二次开发的，关于以后的前景其实有点担忧。
 * UI 不够友好：对于业务线的研发来说，可能只想便捷地完成告警配置和业务监控，但是它把机器分组、策略模板、模板继承等概念全部暴露在 UI 上，感觉在围绕这几个概念设计 UI，理解有点费劲。
 
-##### 3、Prometheus
+**3、Prometheus**
 
 * 主要监控场景： 业务监控、性能监控、容器监控、微服务监控、部分应用监控。
 * 一般使用 Exporter+ Prometheus+ Grafana + Alertmanager 搭建一套监控体系。
@@ -115,7 +119,7 @@ Agent 组件直接支持 CPU、Load、内存、磁盘、IO 等指标，有第三
 **数据采集**
 
 * 通过 HTTP 协议周期性抓取被监控组件的状态，任意组件只要提供 HTTP 接口就可以接入监控，不需要任何SDK或者其他的集成过程，这样做非常适合做虚拟化环境监控系统，如Docker、Kubernetes等。
-* 输出被监控组件信息的HTTP接口被叫做exporter ，目前互联网公司常用的组件大部分都有exporter可以直接使用，比如Varnish、Haproxy、Nginx、MySQL、Linux系统信息(包括磁盘、内存、CPU、网络等等)。
+* 输出被监控组件信息的HTTP接口被叫做exporter ，目前互联网公司常用的组件大部分都有exporter可以直接使用，比如Varnish、Haproxy、Nginx、MySQL、Linux系统信息\(包括磁盘、内存、CPU、网络等等\)。
 
 **数据存储：**
 
@@ -138,18 +142,19 @@ Agent 组件直接支持 CPU、Load、内存、磁盘、IO 等指标，有第三
 #### 4、InfluxDB
 
 * InfluxDB 只是一个时序数据库，必须依赖其他系统才能搭建检控系统，常用 Telegraf + InfluxDB + Grafana + Kapacitor 搭建一套监控体系。
-
 * InfluxDB 采用推模式（Push）获取数据。
 * InfluxDB 和 Promethus 的区别对比：
-  * https://www.metricfire.com/blog/prometheus-vs-influxdb/
-  * https://logz.io/blog/prometheus-influxdb/
+  * [https://www.metricfire.com/blog/prometheus-vs-influxdb/](https://www.metricfire.com/blog/prometheus-vs-influxdb/)
+  * [https://logz.io/blog/prometheus-influxdb/](https://logz.io/blog/prometheus-influxdb/)
 
 #### 5、cAdvisor
+
 * 常见组合是 cAdvisor + InfluxDB + grafana
 * cAdvisor 收集、聚集、处理和导出关于运行容器的信息，提供容器监控。
 * cAdvisor 自身不提供存储，只保留 60 秒的信息，需要将 cAdvisor 设置为将数据记录到外部数据存储库中。经常作为其他监控解决方案的组成部分。
 
 #### 6、ELK
+
 * ELK 是被广泛用于监控、分析日志文件的技术栈。ELK 以其关键组件的首字母命名：
 * Elasticsearch：提供数据存储和搜索。
 * Logstash：一个数据处理管道，用于获取数据并将其发送到 Elastisearch。
@@ -160,23 +165,23 @@ Agent 组件直接支持 CPU、Load、内存、磁盘、IO 等指标，有第三
 * 日志监控 ELK 替代方案，资源占用比 ELK 更小
 * 还有一些收费监控 DataDog ，基于 Hadoop 生态的监控 OpenTSDB 没有深入调研。
 
-
 #### 四、 选型建议
-1. 明确监控需求，节点数量和监控指标有哪些，需要具备如何的告警性能？
 
+1. 明确监控需求，节点数量和监控指标有哪些，需要具备如何的告警性能？
 2. 从系统成熟度上看，Zabbix 属于老牌的监控系统，资料多，功能全面且稳定，如果机器数量在几百台以内，不用太担心性能问题，另外，采用数据库分区、SSD 硬盘、Proxy 架构、Push 采集模式都可以提高监控性能。
 3. Zabbix 在服务器监控方面占绝对优势，可以满足 90% 以上的监控场景，但是应用层的监控似乎并不擅长，比如要监控线程池的状态、某个内部接口的执行时间等，这种通常都要做侵入式埋点。相反，新一代的监控系统 Open-Falcon 和 Prometheus 在这一点做得很好。
 4. 从整体表现上来看，新一代监控系统也有明显的优势，比如：灵活的数据模型、更成熟的时序数据库、强大的告警功能，如果之前对 Zabbix 这种传统监控没有技术积累，建议使用 Open-Falcon 或者 Prometheus。
 5. Open-Falcon 的核心优势在于数据分片功能，能支撑更多的机器和监控项;Prometheus 则是容器监控方面的标配，有 Google 和 K8s 加持。
 6. Zabbix、Open-Falcon 和 Prometheus 都支持和 Grafana 做快速集成，想要美观且强大的可视化体验，可以和 Grafana 进行组合。
-7. 到中后期，随着机器数据增加和个性化需求增多(比如希望统一监控平台、打通公司的 CMDB 和组织架构关系)，往往需要二次开发或者通过监控系统提供的 API 做集成，从这点来看，Open-Falcon 或者 Prometheus 更合适。
+7. 到中后期，随着机器数据增加和个性化需求增多\(比如希望统一监控平台、打通公司的 CMDB 和组织架构关系\)，往往需要二次开发或者通过监控系统提供的 API 做集成，从这点来看，Open-Falcon 或者 Prometheus 更合适。
 8. 不需要一开始就完成一个完美的解决方案，
 
 ## 参考链接
 
-1. https://netsecurity.51cto.com/art/202008/623457.htm
-2. https://blog.didiyun.com/index.php/2019/02/20/monitoring-system
-3. https://cloud.tencent.com/developer/article/1437971
-4. https://netsecurity.51cto.com/art/201905/596709.htm
-5. https://juejin.im/entry/6844903684082679822
-6. https://zhoujinl.github.io/2018/05/16/compared
+1. [https://netsecurity.51cto.com/art/202008/623457.htm](https://netsecurity.51cto.com/art/202008/623457.htm)
+2. [https://blog.didiyun.com/index.php/2019/02/20/monitoring-system](https://blog.didiyun.com/index.php/2019/02/20/monitoring-system)
+3. [https://cloud.tencent.com/developer/article/1437971](https://cloud.tencent.com/developer/article/1437971)
+4. [https://netsecurity.51cto.com/art/201905/596709.htm](https://netsecurity.51cto.com/art/201905/596709.htm)
+5. [https://juejin.im/entry/6844903684082679822](https://juejin.im/entry/6844903684082679822)
+6. [https://zhoujinl.github.io/2018/05/16/compared](https://zhoujinl.github.io/2018/05/16/compared)
+

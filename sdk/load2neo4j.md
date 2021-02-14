@@ -1,16 +1,14 @@
+# load2neo4j
 
-问题场景：将 JSON-LD 数据导入到 Neo4j 的数据库中，
-Crete Time : 2020-01-16 19:04:21.302373
+问题场景：将 JSON-LD 数据导入到 Neo4j 的数据库中， Crete Time : 2020-01-16 19:04:21.302373
 
-# 一、将 JSON-LD 数据导入 Neo4j
+## 一、将 JSON-LD 数据导入 Neo4j
 
 * 针对每个 Json-LD 文件，使用 batch 的方式导入 Neo4j 数据库。
 * 导入 JSON-LD 需要两个插件 [APOC](https://github.com/neo4j-contrib/neo4j-apoc-procedures) 和 [neosemantics](https://github.com/neo4j-labs/neosemantics) 的支持（最低版本需要 3.5）。
-* 插件的下载页面下载 jar 包之后，放入 Neo4j 的 plugins 目录，然后配置 conf 目录下的 neo4j.conf 文件，添加 ```dbms.unmanaged_extension_classes=semantics.extension=/rdf``` 配置，如果 dbms.unmanaged_extension_classes 的配置不止一项，可写如为 ```dbms.unmanaged_extension_classes=org.neo4j.graphql=/graphql,semantics.extension=/rdf``` 格式
+* 插件的下载页面下载 jar 包之后，放入 Neo4j 的 plugins 目录，然后配置 conf 目录下的 neo4j.conf 文件，添加 `dbms.unmanaged_extension_classes=semantics.extension=/rdf` 配置，如果 dbms.unmanaged\_extension\_classes 的配置不止一项，可写如为 `dbms.unmanaged_extension_classes=org.neo4j.graphql=/graphql,semantics.extension=/rdf` 格式
 
-
-```py
-
+```python
 import json
 import logging
 import os
@@ -76,16 +74,18 @@ if __name__ == "__main__":
     load_to_neo4j(file_path)
 ```
 
-# 二、将数据从 Neo4j 导出，再导入到另一个 Neo4j 数据库
+## 二、将数据从 Neo4j 导出，再导入到另一个 Neo4j 数据库
 
 * Neo4j 数据库版本为 3.5，使用 apoc 插件，将数据导出为 graphml 格式，再导入。
 * 使用 apoc 的导入导出功能，需要在 conf 中配置
-```
-dbms.security.procedures.unrestricted=apoc.export.*,apoc.import.*
-apoc.export.file.enabled=true
-apoc.import.file.enabled=true
-```
+
+  ```text
+  dbms.security.procedures.unrestricted=apoc.export.*,apoc.import.*
+  apoc.export.file.enabled=true
+  apoc.import.file.enabled=true
+  ```
 
 * 在 Neo4j 提供的网页界面中，使用如下命令导入导出：
-* 导出：```CALL apoc.export.graphml.all(<filename.graphml>, {useTypes:true, storeNodeIds:false,readLabels:true})```
-* 导入：```CALL apoc.import.graphml(<filename.graphml>, {batchSize: 10000, storeNodeIds: false,readLabels:true})```
+* 导出：`CALL apoc.export.graphml.all(<filename.graphml>, {useTypes:true, storeNodeIds:false,readLabels:true})`
+* 导入：`CALL apoc.import.graphml(<filename.graphml>, {batchSize: 10000, storeNodeIds: false,readLabels:true})`
+
