@@ -11,13 +11,16 @@
 * 安装 python3.9, [官网](https://www.python.org/downloads/release/python-390/)
 * 在根目录下（5118） 下打开终端，依次执行以下命令
 
-\`\`\`shell script python3.9 -m venv venv source venv/bin/activate （Mac） .\venv\Scripts\activate.bat （Windows） pip install -r requirements.txt -i [https://pypi.doubanio.com/simple](https://pypi.doubanio.com/simple)
-
-\`\`\`
+```shell
+python3.9 -m venv venv 
+source venv/bin/activate （Mac） 
+.\venv\Scripts\activate.bat （Windows） 
+pip install -r requirements.txt -i [https://pypi.doubanio.com/simple](https://pypi.doubanio.com/simple)
+```
 
 * **如果是跑大量数据，建议使用 kmeans 的方法，余弦相似度方法只是提供一个代码实现示例**
 
-  **一、使用余弦相似度进行聚合**
+### 一、使用余弦相似度进行聚合
 
 * **确保准备工作已经被执行**
 * 在根目录（5118） 终端下，执行 `python cosine.py`

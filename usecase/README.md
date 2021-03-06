@@ -26,10 +26,10 @@
 
 * 在 Postgres 数据库中使用 tree，包括创建节点，查询节点，查询父节点下的所有子节点，查询当前节点到跟节点的所有节点
 
-## multi\_proc
+## multi_proc
 
 * 多进程使用示例
 
-## safe\_eval
+## safe_eval
 
 * 代替 Python 原生的 eval 函数，只进行允许的表达式运算
