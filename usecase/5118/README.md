@@ -12,10 +12,10 @@
 * 在根目录下（5118） 下打开终端，依次执行以下命令
 
 ```shell
-python3.9 -m venv venv 
-source venv/bin/activate （Mac） 
-.\venv\Scripts\activate.bat （Windows） 
-pip install -r requirements.txt -i [https://pypi.doubanio.com/simple](https://pypi.doubanio.com/simple)
+python3.9 -m venv venv
+source venv/bin/activate （Mac）
+.\venv\Scripts\activate.bat （Windows）
+pip install -r requirements.txt -i https://pypi.doubanio.com/simple
 ```
 
 * **如果是跑大量数据，建议使用 kmeans 的方法，余弦相似度方法只是提供一个代码实现示例**
@@ -41,4 +41,4 @@ pip install -r requirements.txt -i [https://pypi.doubanio.com/simple](https://py
 
 如果有问题，欢迎微信讨论
 
-![](../../.gitbook/assets/Wechat.jpeg)
+<img src="/images/Wechat.jpeg" width = "220" align=center />

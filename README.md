@@ -1,25 +1,24 @@
 # Python 使用技巧
 
-> This repository contains ancillary function which code in Python3. Use it freely.
+> This repository contains ancillary function which code in python3. Use it freely.
 >
 > Crawl web function may contain error(s) as the web elements changed.
 >
-> If you had any idea to improve my code or you find any mistake in my file, please contact me. \(Email me at super76rui@icloud.com\)
+> If you had any idea to improve my code or you find any mistake in my file, please contact me. (Email me at super76rui@icloud.com)
 
 ## 1.在列表，字典，集合中根据条件筛选数据
 
 需求：
-1. 过滤 list 中大于 0 的数：\[14, 0, -6, 0, -10, -8, -1, 19, -10, -16\];
-2. 筛选出字典中值大于 0 的项目：{0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3};
-3. 筛选出集合中能被 2 整除的数：{3, 4, 9, 12, 15, 17, 19, 20};
-4. 找到字典中值最小的健值对：prices = {'ACME': 45.23,'AAPL': 612.78,'IBM': 205.55,'HPQ': 37.20,'FB': 10.75};
-5. 对字典排序，首先按照值排序，值相同再按照健排序;
-6. 对字典的健按照值排序;
+1. 过滤 list 中大于 0 的数：[14, 0, -6, 0, -10, -8, -1, 19, -10, -16]
+2. 筛选出字典中值大于 0 的项目：{0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3}
+3. 筛选出集合中能被 2 整除的数：{3, 4, 9, 12, 15, 17, 19, 20}
+4. 找到字典中值最小的健值对：prices = {'ACME': 45.23,'AAPL': 612.78,'IBM': 205.55,'HPQ': 37.20,'FB': 10.75}
+5. 对字典排序，首先按照值排序，值相同再按照健排序 6. 对字典的健按照值排序
 
-```python
-list_bigger = [x for x in list_nums if x > 0]
-dict_bigger = {k: v for k, v in dict_nums.items() if v > 0}
-set_two = {x for x in set_nums if not x % 2}
+```py
+list_bigger = [x for x in list_numbers if x > 0]
+dict_bigger = {k: v for k, v in dict_numbers.items() if v > 0}
+set_two = {x for x in set_numbers if not x % 2}
 
 min_pairs = min(zip(prices.values(),prices.keys()))
 sorted_pairs = sorted(zip(prices.values(),prices.keys()))
@@ -34,13 +33,13 @@ sorted_keys = sorted(prices,prices.get)
 ```python
 from collections import namedtuple
 
-stuendt = namedtuple("Student", ["name", "age", "sex"])
+student = namedtuple("Student", ["name", "age", "sex"])
 
-s1 = stuendt(name="12", age=12, sex="female")
-s2 = stuendt(name="12", age=12, sex="male")
+s1 = student(name="12", age=12, sex="female")
+s2 = student(name="12", age=12, sex="male")
 ```
 
-需求： 统计 \[5, 2, 2, 3, 1, 5, 1, 3, 2, 4\] 出现次数最高的 3 的元素，并找到它们的出现次数 统计一个段落中出现次数最高的前 3 个元素，并确定次数
+需求： 统计 [5, 2, 2, 3, 1, 5, 1, 3, 2, 4] 出现次数最高的 3 的元素，并找到它们的出现次数 统计一个段落中出现次数最高的前 3 个元素，并确定次数
 
 ```python
 import re
@@ -63,8 +62,8 @@ com = times.most_common(3)
 需求：根据字典中值的大小，对字典排序
 
 ```python
-nums = {0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3}
-res = sorted(nums.items(), key=lambda x: x[1])
+numbers = {0: 9, 1: -3, 2: -8, 3: 6, 4: -4, 5: -4, 6: -7, 7: -8, 8: 7, 9: -3}
+res = sorted(numbers.items(), key=lambda x: x[1])
 ```
 
 需求：找到多个字典中的公共键
@@ -353,7 +352,6 @@ items = [1, 2, [3, 4, (5, 6), 7], 8, "temp", "core", {-1, -2, -4, -6}]
 for x in flatten(items):
     print(x)
 ```
-
 ## 9. 文件
 
 1. 打印输出到文件中
@@ -383,27 +381,29 @@ def recv(maxsize, *, block):
 recv(1024, True) # TypeError
 recv(1024, block=True) # Ok
 ```
-
 ## 11. 比较两个字典是否相等
 
 * 键个数相等，键名一一对应，键值一一对应相等
+```py
+import json
+from datetime import datetime
 
-  \`\`\`py
+from bson.json_util import default
 
-  import json
 
-  from datetime import datetime
+def compare_2_dict(dict_1, dict_2):
+    return (json.dumps(dict_1, default=default, sort_keys=dict.keys) ==
+                json.dumps(dict_2, default=default, sort_keys=dict.keys))
 
-from bson.json\_util import default
 
-def compare\_2\_dict\(dict\_1, dict\_2\): return \(json.dumps\(dict\_1, default=default, sort\_keys=dict.keys\) == json.dumps\(dict\_2, default=default, sort\_keys=dict.keys\)\)
+dicta = {"a": datetime.now(), "b": 2}
+dictb = {"a": datetime.now(), "b": 2}
 
-dicta = {"a": datetime.now\(\), "b": 2} dictb = {"a": datetime.now\(\), "b": 2}
+print(compare_2_dict(dicta, dictb))
 
-print\(compare\_2\_dict\(dicta, dictb\)\)
+```
 
-```text
-### 12. Lambda
+## 12. Lambda
 * 在 for loop 中使用 lambda，如果有赋值，请小心
 
 ```py
@@ -413,15 +413,13 @@ m = [lambda i=i: i for i in range(4)]
 res_t = [func() for func in t]
 res_m = [func() for func in m]
 ```
-
-* res\_t:  \[3, 3, 3, 3\]
-* rest\_m: \[0, 1, 2, 3\]
+* res_t:  [3, 3, 3, 3]
+* rest_m: [0, 1, 2, 3]
 
 ## 13. Iterator
-
 * iterator 不走回头路，可以利用此特性来判断 list 是否存在于另一个 list 中
 
-```python
+```py
 # a = [1,2,3]
 # b = [1,3,2,4,5,6]
 # check if all num in a is in b, ordered
