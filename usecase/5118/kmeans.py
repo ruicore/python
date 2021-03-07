@@ -6,8 +6,7 @@ from pathlib import Path
 from typing import List
 
 import pandas as pd
-from common import (aggregate_files, cut_word, get_path, get_stop_words,
-                    time_logger, write_excel)
+from common import aggregate_files, cut_word, get_path, get_stop_words, time_logger, write_excel
 from logger import logger
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import CountVectorizer

@@ -1,7 +1,8 @@
 # Tree
 
-* Sqlalchemy Tree with Postgresql Recursive CTE
-* A Simple Usage for Tree in Postgresql with Sqlalchemy
+* Sqlalchemy Tree with Postgresql and MySQL Recursive CTE.
+* A Simple Usage for Tree in Postgresql and MySQL with Sqlalchemy.
+* Python Code is Shown with Postgresql.
 
 ## Model
 
@@ -102,8 +103,37 @@ WITH RECURSIVE hierarchy(id, parent_id, name, level, path, cycle) AS (
 SELECT id, parent_id, name
 FROM hierarchy
 ```
+* 因为 MySql 没有 Array 类型，我们可以将路径 ID 用字符串的形式拼接起来
 
-### 三、根据输入的所有节点，构成一颗或多颗树
+```sql
+WITH RECURSIVE hierarchy(id, parent_id, name, level, path, cycle) AS (
+    SELECT tree.id                            AS id,
+           tree.parent_id                     AS parent_id,
+           tree.name                          AS name,
+           1                                  AS level,
+           concat('|', CAST(id AS CHAR), '|') as path,
+           FALSE                              AS cycle
+    FROM tree
+    WHERE tree.id = 1
+    UNION ALL
+    SELECT next_level.id                                            AS id,
+           next_level.parent_id                                     AS parent_id,
+           next_level.name                                          AS name,
+           hierarchy.level + 1                                      AS level,
+           concat(hierarchy.path, CAST(next_level.id AS CHAR), '|') AS path,
+           CASE
+               WHEN hierarchy.path LIKE concat('%|', CAST(hierarchy.id AS CHAR), '|%') THEN TRUE
+               ELSE FALSE END                                       AS cycle
+    FROM hierarchy
+             JOIN tree AS next_level
+                  ON hierarchy.id = next_level.parent_id
+    WHERE hierarchy.cycle IS false
+)
+SELECT id, parent_id, name, path
+FROM hierarchy;
+```
+
+### 三、根据输入的所有节点，构成一棵树或多棵树
 
 * 示例代码中使用 pydantic 将从数据库中查询出来的结果转换成了 class，不转换也可以，但是访问属性的方式需要由 `Tree.id` --&gt; `Tree["id]`
 * 核心思想是将当前节点塞到父节点下，如果当前节点没有父节点，那么当前节点就是根节点

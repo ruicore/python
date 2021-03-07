@@ -2,8 +2,9 @@ from typing import List, Optional
 
 import sqlalchemy as sa
 from pydantic import BaseModel
-from sqlalchemy import (Column, ForeignKey, Integer, String, any_, column,
-                        create_engine, literal, select)
+from sqlalchemy import (
+    Column, ForeignKey, Integer, String, any_, column, create_engine, literal, select,
+)
 from sqlalchemy.dialects.postgresql import array
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, aliased
