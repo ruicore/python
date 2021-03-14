@@ -37,7 +37,7 @@ def time_logger(func):
         res = func(*arg, **kwargs)
         end = time()
         logger.info(
-            f'执行函数 {func.__name__} 结束, 用时 {(end - start):.2f} 秒,{(end - start) / 60 / 60} 小时 '
+            f'执行函数 {func.__name__} 结束, 用时 {(end - start):.2f} 秒,{(end - start) / 60 / 60:.4f} 小时 '
         )
         return res
 
@@ -89,7 +89,7 @@ def _aggregate(files: List[Path], skip_rows=None) -> Set[str]:
 
 
 @time_logger
-def aggregate_files(directory: str, file_name: str):
+def aggregate_files(directory: str, file_name: str, to_csv: bool = True):
     """
     获取目录下的所有文件
     将所有文件的内容汇集到一起
@@ -97,8 +97,9 @@ def aggregate_files(directory: str, file_name: str):
     """
     files = get_files(directory)
     texts = _aggregate(files, skip_rows=[0])
-    write_csv(texts, file_name)
-    return True
+    if to_csv:
+        write_csv(texts, file_name)
+    return texts
 
 
 def ignore_visited(x: str, visited: Set[str]):

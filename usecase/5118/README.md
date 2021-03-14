@@ -39,6 +39,13 @@ pip install -r requirements.txt -i https://pypi.doubanio.com/simple
   * `times.xlsx`: 所有的关键词（含词频）
   * `res`: 此文件夹存放分组之后的结果
 
+# 使用 Xmind8 画图
+
+* **确保准备工作已经被执行**
+* 安装 [xmind8](https://www.xmind.net/xmind8-pro/) 软件（用于打开最后生成的文件）
+* 在根目录（5118） 终端下，执行 `python xmind_iamge.py
+* 程序执行完成之后生成 `res.xmid`，用上面安装的软件打开即可。
+
 如果有问题，欢迎微信讨论
 
 <img src="/images/Wechat.jpeg" width = "220" align=center />
