@@ -43,7 +43,7 @@ prompt-toolkit==3.0.8
 protobuf==3.13.0
 ptyprocess==0.6.0
 pycodestyle==2.6.0
-pydantic==1.7.2
+pydantic==1.7.4
 Pygments==2.7.4
 pylint==2.6.0
 pymongo==3.11.0
