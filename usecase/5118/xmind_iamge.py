@@ -1,19 +1,23 @@
 import os
-from collections import Counter
-from collections import defaultdict
+from collections import Counter, defaultdict
 from itertools import chain
-from typing import List, Set, Optional, Tuple
+from typing import List, Optional, Set
 
 import pandas as pd
 import xmind
-
-from common import cut_word, aggregate_files, get_stop_words, time_logger
+from common import aggregate_files, cut_word, get_stop_words, time_logger
 
 
 class Draw:
-    def __init__(self, directory: str = './zip', aggregate: bool = True, key_file="keys.csv",
-                 res_file: str = "res.xmind",
-                 depth: int = 4, width: int = 5):
+    def __init__(
+        self,
+        directory: str = './zip',
+        aggregate: bool = True,
+        key_file='keys.csv',
+        res_file: str = 'res.xmind',
+        depth: int = 4,
+        width: int = 5,
+    ):
         self.index = {}
         self.invert_index = {}
         self.ignore_topics = {}
@@ -22,7 +26,7 @@ class Draw:
         self.depth = depth
         self.width = width
         if aggregate:
-            texts = aggregate_files(directory, file_name="keys.csv", to_csv=False)
+            texts = aggregate_files(directory, file_name='keys.csv', to_csv=False)
         else:
             texts = pd.read_csv(key_file, encoding='UTF_8_SIG')
         self._build_index(texts, get_stop_words())
@@ -82,7 +86,10 @@ class Draw:
         sheet = workbook.createSheet()
 
         # 创建根节点
-        root = self._get_top(1, None, )[0]
+        root = self._get_top(
+            1,
+            None,
+        )[0]
         sheet.setTitle(root)
         rt = sheet.getRootTopic()
         rt.setTitle(root)
@@ -97,8 +104,8 @@ class Draw:
 if __name__ == '__main__':
     directory: str = './zip'  # 存放从 5118 下载的所有压缩文件
     aggregate: bool = True  # 是否是多个文件
-    key_file = "keys.csv"  # 如果已经生成了关键词文件，可以指定关键字文件的名字
-    res_file: str = "res.xmind"  # 最后结果文件的名称
+    key_file = 'keys.csv'  # 如果已经生成了关键词文件，可以指定关键字文件的名字
+    res_file: str = 'res.xmind'  # 最后结果文件的名称
     depth: int = 3  # 控制思维导图的深度
     width: int = 4  # 控制每一层的节点个数
     client = Draw(directory, aggregate, key_file, res_file, depth, width)

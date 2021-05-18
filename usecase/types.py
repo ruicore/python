@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Tree(BaseModel):
-    """ for dgraph"""
+    """for dgraph"""
 
     uid: Optional[str]
     procedure: Optional[int]

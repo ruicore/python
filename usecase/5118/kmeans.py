@@ -63,7 +63,7 @@ def analysis(
     key_file='keys.csv',
     res_file='res.xlsx',
 ):
-    """ 对所有的 zip 文件进行分析，输出为到 res.xlsx 文件中"""
+    """对所有的 zip 文件进行分析，输出为到 res.xlsx 文件中"""
     if aggregate:
         aggregate_files(directory, key_file)
     file_path = get_path('keys.csv')
@@ -81,9 +81,7 @@ if __name__ == '__main__':
     """使用 kmeans 的方法对关键词进行分裂"""
     # 这个参数控制最终分成的组的数量，50w 关键词，建议设置为 1000，示例文件的关键词数量很少，所以这里设置成了 10 ，建议修改
     clusters_count = 10
-    file_count = (
-        10  # 最后输出的 excel 数量，如果 file_count > clusters_count，那么只会输出  clusters_count 个文件
-    )
+    file_count = 10  # 最后输出的 excel 数量，如果 file_count > clusters_count，那么只会输出  clusters_count 个文件
     calc_times = True  # 是否需要统计词频，不需要请改成 False
     analysis(
         aggregate=True,

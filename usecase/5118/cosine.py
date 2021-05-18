@@ -14,7 +14,7 @@ jieba.setLogLevel(logging.INFO)
 
 
 def ignore_visited(x: str, visited: Set[str]):
-    """ 判断一个短语是否已经被分到了一个组中 """
+    """判断一个短语是否已经被分到了一个组中"""
     return x in visited
 
 
@@ -27,7 +27,7 @@ def get_counter(words: str):
 
 
 def build_vector(first: str, second: str):
-    """ 为两个短语构建向量 """
+    """为两个短语构建向量"""
     f_counter, s_counter = get_counter(first), get_counter(second)
     keys = f_counter.keys() | s_counter.keys()
     f_vector, s_vector = [], []
@@ -56,9 +56,7 @@ def group(file_name: str, threshold=0.8):
     for x, y in combinations(keys, 2):
         loop += 1
         if not loop % batch:
-            logging.info(
-                f'处理 {x}:{y}，耗时 {(end - start):.10f} 秒,第 {(loop // batch)}个 50万对'
-            )
+            logging.info(f'处理 {x}:{y}，耗时 {(end - start):.10f} 秒,第 {(loop // batch)}个 50万对')
             start = end
         end = time()
         if ignore_visited(x, visited) or ignore_visited(y, visited):
@@ -74,9 +72,7 @@ def group(file_name: str, threshold=0.8):
 
 
 @time_logger
-def analysis(
-    directory: str = './zip', aggregate=False, key_file='keys.csv', res_file='res.xlsx'
-):
+def analysis(directory: str = './zip', aggregate=False, key_file='keys.csv', res_file='res.xlsx'):
     if aggregate:
         aggregate_files(directory, key_file)
     groups = group(key_file, threshold=0.8)

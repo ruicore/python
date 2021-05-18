@@ -6,9 +6,7 @@ class BatchReadFile:
         self.BATCH_SIZE = 100
 
     def _read(self, content, last_word):
-        text = re.sub(
-            r'[^\w ]', ' ', last_word + content
-        )  # filter out non-words and non-space
+        text = re.sub(r'[^\w ]', ' ', last_word + content)  # filter out non-words and non-space
         word_list = text.split(' ')
         f_word_list, last_word = word_list[:-1], word_list[-1]
 

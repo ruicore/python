@@ -301,9 +301,7 @@ def delete_edge_for_node(uid: str) -> None:
         }
     """
 
-    tree = execute_query(query, variables={'$uid': uid})[
-        'tree'
-    ]  # return [{'uid': '0x1117f'}]
+    tree = execute_query(query, variables={'$uid': uid})['tree']  # return [{'uid': '0x1117f'}]
     if not tree:
         return
     tree = next(iter(tree))

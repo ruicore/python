@@ -14,9 +14,7 @@ class Redis:
     async def connect(self):
         assert not self.is_connected, 'Redis is already connected.'
 
-        self.redis = await aioredis.create_redis_pool(
-            self.address, minsize=5, maxsize=20
-        )
+        self.redis = await aioredis.create_redis_pool(self.address, minsize=5, maxsize=20)
         self.is_connected = True
 
     async def dis_connected(self):
