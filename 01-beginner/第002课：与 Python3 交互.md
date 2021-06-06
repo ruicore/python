@@ -100,7 +100,7 @@ ipython 的功能更加丰富，也更强大，如无说明，后面文章中所
 输入 `python3`，即可进入 Python 交互式环境。如果你还没有安装 Python ，可以查看这一篇文章 <a href="第001课：如何安装 Python3.md">如何安装 Python3</a>。
 
 进入交互式环境是这样的
-<img src="/images/0003-macOS-01.png" align=center />
+<img src="/images/0003-macos-01.png" align=center />
 
 接下来我们输入一些代码，看看会有什么效果，符号 `>>>` 开头的表示这一行是代码，否则表示这一行是结果。
 
@@ -123,7 +123,7 @@ ipython 的功能更加丰富，也更强大，如无说明，后面文章中所
 
 首先使用 `exit()` 命令来退出 python3 默认的交互环境。然后使用命令 `pip3 install ipython  -i https://pypi.doubanio.com/simple` 安装 ipython。
 
-<img src="/images/0003-macOS-03.png" align=center />
+<img src="/images/0003-macos-03.png" align=center />
 
 输入 `ipython` ，即可进入 ipython 的交互式界面，让我们来看看在 ipython 中运行命令是什么样的。
 
@@ -172,7 +172,7 @@ ipython 的功能更加丰富，也更强大，如无说明，后面文章中所
 
 然后把输入法切换到英文状态，按下 `Ctl` +  <code> `</code> ,调出命令行工具，输入 <code>python3 hello.py </code> 即可运行程序。
 
-<img src="/images/0003-macos-09.png" align=center />
+<img src="/images/0003-macos-11.png" align=center />
 至此，我们的第一个 Python 程序就成功的运行啦，是不是很有成就感 😘 ～～～
 
 ## 补充知识
