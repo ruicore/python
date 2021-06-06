@@ -123,7 +123,7 @@ ipython 的功能更加丰富，也更强大，如无说明，后面文章中所
 
 首先使用 `exit()` 命令来退出 python3 默认的交互环境。然后使用命令 `pip3 install ipython  -i https://pypi.doubanio.com/simple` 安装 ipython。
 
-<img src="/images/0003-macos-03.png" align=center />
+<img src="/images/0003-macos-13.png" align=center />
 
 输入 `ipython` ，即可进入 ipython 的交互式界面，让我们来看看在 ipython 中运行命令是什么样的。
 
