@@ -172,7 +172,7 @@ ipython 的功能更加丰富，也更强大，如无说明，后面文章中所
 
 然后把输入法切换到英文状态，按下 `Ctl` +  <code> `</code> ,调出命令行工具，输入 <code>python3 hello.py </code> 即可运行程序。
 
-<img src="/images/0003-macos-09.png" align=center />
+<img src="/images/0003-macos-11.png" align=center />
 至此，我们的第一个 Python 程序就成功的运行啦，是不是很有成就感 😘 ～～～
 
 ## 补充知识
