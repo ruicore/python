@@ -8,7 +8,7 @@ et-xmlfile==1.0.1
 idna==2.10
 jdcal==1.4.1
 jieba==0.42.1
-joblib==1.0.1
+joblib==1.2.0
 lxml==4.9.1
 multidict==5.1.0
 numpy==1.22.0
